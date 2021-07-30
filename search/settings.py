@@ -12,7 +12,7 @@ SECRET_KEY = 's53=p-tx@h-254*a0*8_es-ew=#2_1xps=ju8b$hfejnj@13n7'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = ['super-testapp.herokuapp.com', '127.0.0.1']
 
 AUTH_USER_MODEL='customauth.DropUser'
 # Application definition
