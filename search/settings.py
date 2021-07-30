@@ -12,7 +12,7 @@ SECRET_KEY = 's53=p-tx@h-254*a0*8_es-ew=#2_1xps=ju8b$hfejnj@13n7'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = ['127.0.0.1', '.herokuapp.com']
+ALLOWED_HOSTS = ['*']
 
 AUTH_USER_MODEL='customauth.DropUser'
 # Application definition
@@ -130,4 +130,4 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
-django_heroku.settings(locals())
+#django_heroku.settings(locals())
