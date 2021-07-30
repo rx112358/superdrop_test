@@ -43,11 +43,17 @@ def get_drop_form(request):
     Creating an empty drop form object that is rendered with the home page
 
     '''
-    #form = DropForm()
-    #context = {'form': form}
     response=render(request, "index.html")
+    return response
 
-    #response.set_cookie('user_visit',0)
+#@login_required(login_url='/accounts/login/')
+def get_asset_lib(request):
+    '''
+
+    Render asset lib
+
+    '''
+    response=render(request, "asset_lib.html")
 
     return response
 
