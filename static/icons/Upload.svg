@@ -1,0 +1,60 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="313" height="331" viewBox="0 0 313 331">
+  <defs>
+    <style>
+      .cls-1, .cls-2, .cls-5 {
+        fill: #fff;
+      }
+
+      .cls-1 {
+        stroke: #000;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+      }
+
+      .cls-2 {
+        stroke: #707070;
+        stroke-dasharray: 4 3;
+        opacity: 0.4;
+      }
+
+      .cls-3, .cls-4 {
+        fill: #fe4040;
+        opacity: 0.8;
+      }
+
+      .cls-4 {
+        font-size: 15px;
+      }
+
+      .cls-4, .cls-5 {
+        font-family: Questrial-Regular, Questrial;
+      }
+
+      .cls-5 {
+        font-size: 13px;
+      }
+
+      .cls-6 {
+        stroke: none;
+      }
+
+      .cls-7 {
+        fill: none;
+      }
+    </style>
+  </defs>
+  <g id="Component_36_1" data-name="Component 36 – 1" transform="translate(0.5 0.5)">
+    <g id="Component_25_1" data-name="Component 25 – 1">
+      <rect id="Rectangle_42" data-name="Rectangle 42" class="cls-1" width="312" height="330"/>
+      <g id="Rectangle_67" data-name="Rectangle 67" class="cls-2" transform="translate(27 28)">
+        <rect class="cls-6" width="254" height="276"/>
+        <rect class="cls-7" x="0.5" y="0.5" width="253" height="275"/>
+      </g>
+    </g>
+    <path id="upload" class="cls-3" d="M8.71,7.71,11,5.41V15a1,1,0,0,0,2,0V5.41l2.29,2.3a1,1,0,1,0,1.42-1.42l-4-4a1.034,1.034,0,0,0-1.42,0l-4,4A1,1,0,0,0,8.71,7.71ZM21,12a1,1,0,0,0-1,1v6a1,1,0,0,1-1,1H5a1,1,0,0,1-1-1V13a1,1,0,0,0-2,0v6a3,3,0,0,0,3,3H19a3,3,0,0,0,3-3V13A1,1,0,0,0,21,12Z" transform="translate(142 91.995)"/>
+    <text id="Upload_files_here_or_" data-name="Upload files here
+or " class="cls-4" transform="translate(154 148)"><tspan x="-55.725" y="0">Upload files here</tspan><tspan x="-8.415" y="15">or </tspan></text>
+    <rect id="Rectangle_68" data-name="Rectangle 68" class="cls-3" width="120" height="36" transform="translate(94 192)"/>
+    <text id="Browse" class="cls-5" transform="translate(154 214)"><tspan x="-21.665" y="0">Browse</tspan></text>
+  </g>
+</svg>

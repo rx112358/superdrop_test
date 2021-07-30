@@ -1,0 +1,15 @@
+<svg id="Component_21_1" data-name="Component 21 – 1" xmlns="http://www.w3.org/2000/svg" width="46" height="46" viewBox="0 0 46 46">
+  <defs>
+    <style>
+      .cls-1 {
+        fill: #fff;
+      }
+
+      .cls-2 {
+        fill: #fe4040;
+      }
+    </style>
+  </defs>
+  <circle id="Ellipse_5" data-name="Ellipse 5" class="cls-1" cx="23" cy="23" r="23"/>
+  <path id="layers" class="cls-2" d="M2.5,10.56l9,5.2a1,1,0,0,0,1,0l9-5.2a1,1,0,0,0,0-1.73l-9-5.2a1,1,0,0,0-1,0l-9,5.2a1,1,0,0,0,0,1.73ZM12,5.65l7,4L12,13.7,5,9.69Zm8.5,7.79L12,18.35,3.5,13.44a1,1,0,1,0-1,1.73l9,5.2a1,1,0,0,0,1,0l9-5.2a1,1,0,1,0-1-1.73Z" transform="translate(11.005 11.504)"/>
+</svg>

@@ -1,0 +1,177 @@
+{% load static %}
+    {% block drop %}
+
+    <div  id="drop-edit-details-tab-1">
+
+        {% csrf_token %}
+
+
+        <div class="fieldWrapper">
+                
+                <p><label for="edit_drop_title"> Title </label> </p>
+                <p><input class="w-100 p-2" type="text" name="drop_title" maxlength="200" required="" id="edit_drop_title" value="{{ drop.drop_title }}"></p>
+                
+        </div>
+
+        <div class="fieldWrapper">
+                
+                <p><label for="edit_drop_category"> Category </label> </p>
+
+                <p><select class="w-100 py-3" name="drop_category" id="edit_drop_category">
+                    <option value="0" {% if drop.drop_category == '0' %} selected {% endif %}>Animation</option>
+                    <option value="1" {% if drop.drop_category == '1' %} selected {% endif %}>Art</option>
+                    <option value="2" {% if drop.drop_category == '2' %} selected {% endif %}>Video</option>
+                    <option value="3" {% if drop.drop_category == '3' %} selected {% endif %}>NFT</option>
+                    <option value="4" {% if drop.drop_category == '4' %} selected {% endif %}>Image</option>
+                    <option value="5" {% if drop.drop_category == '5' %} selected {% endif %}>Links</option>
+
+                    </select>
+                </p>
+                
+        </div>
+                
+        <div class="fieldWrapper">
+                
+                <p><label for="edit_drop_type"> Type of drop </label> </p>
+
+                <p><select class="w-100 py-3" name="drop_type" id="edit_drop_type">
+                    <option value="WEB" {% if drop.drop_type == "WEB" %} selected {% endif %} >Website</option>
+                    <option value="YT"  {% if drop.drop_type == "YT"  %} selected {% endif %} >Youtube Video</option>
+                    <option value="IMG" {% if drop.drop_type == "IMG" %} selected {% endif %} >Photo</option>
+                    <option value="ANI" {% if drop.drop_type == "ANI" %} selected {% endif %} >Animation</option>
+                    <option value="AUD" {% if drop.drop_type == "AUD" %} selected {% endif %} >Audio</option>
+
+                    </select>
+                </p> 
+        </div>
+                
+        <div class="fieldWrapper">
+                
+                <p><label for="edit_drop_description"> Add Description </label> </p>
+                <p><textarea class="w-100" name="drop_description" rows="10" required="" id="edit_drop_description">{{ drop.drop_description }}</textarea></p>
+                
+        </div>
+
+        <div class="d-flex gap-5 flex-row">
+                <button type="button" id="edit-tab-1-control-b-btn" class=" w-50 btn btn-block tab-control">Back</button> 
+                <button type="button" id="edit-tab-1-control-f-btn" class=" w-50 btn btn-block tab-control">Next</button> 
+        </div>
+
+</div>
+
+<div  id="drop-edit-details-tab-2" class="hideTab">
+
+    <div class="fieldWrapper pt-2 pb-2 w-100">
+
+        <p><label for="edit-drop-coord"> Enter Co-ordinates </label> </p>
+        <div class="input-group"><input type="text" name="drop_coordinates" maxlength="200" id="edit-drop-coord" aria-describedby="user-drop-coord" class="form-control p-2">
+            <button type="button" id="edit-drop-coord-btn" class="btn">Search</button>
+
+            <div class="drop-coord-results">
+                
+            </div>
+        </div>
+                
+    </div>
+
+    <center><p>or</p></center>
+    
+    <div class="fieldWrapper pt-2 pb-2">
+
+        <p>Choose location </p>
+    
+        <div  class="location-container drop-coord">
+
+            <div id="update-drop-loc-search-box"></div>
+
+            <div id="update-drop-coord"></div>
+
+        </div>
+    
+    </div>
+
+    <div class="fieldWrapper trending-loc-list pb-5" style="padding-top: 50px;" style="display:none"> 
+    
+        <p> Suggested locations </p>
+        <p style="font-size:13px;"> Trending </p>
+        <p> 
+            <div id="edit-drop-coord-trending" style="display:none">
+                    <div class="d-flex gap-5 flex-row">
+                        <button type="button" data-drop-lat='' data-drop-lon='' class="trending-loc   btn btn-block"></button>
+                        <button type="button" data-drop-lat='' data-drop-lon='' class="trending-loc   btn btn-block"></button>
+                        <button type="button" data-drop-lat='' data-drop-lon='' class="trending-loc   btn btn-block"></button>
+                    </div>
+                    <br>
+                    <div class="d-flex gap-5 flex-row">
+                        <button type="button" data-drop-lat='' data-drop-lon='' class="trending-loc   btn btn-block"></button>
+                        <button type="button" data-drop-lat='' data-drop-lon='' class="trending-loc   btn btn-block"></button>
+                        <button type="button" data-drop-lat='' data-drop-lon='' class="trending-loc   btn btn-block"></button>
+                    </div>
+            </div>
+        </p>
+            
+    </div>
+
+    <br>
+
+    <center><p>or</p></center>
+
+    <div class="fieldWrapper pt-2 pb-2">
+    
+    <p><label for="edit-drop-coord-marker"> Place drop manually </label> </p>
+    <div>
+        <button type="button" id='edit-drop-coord-marker' class="w-100 btn btn-block">Place drop</button> 
+        <button type="button" id="confirm-edit-drop"    class="w-100 btn btn-block" style="display:none">Confirm drop</button>    
+    </div>
+        
+    </div>
+
+    <div class="fieldWrapper edit-drop-location-list">
+        {% block locations %}
+        {% for location in locations %}
+            {%   if location.location_name is not None and location.location_id is not None  %}
+            <p>{{ location.location_name }} <button type="button" data-drop-id="{{ drop.id }}" data-loc-id="{{ location.location_id }}" class="drop-location-remove-btn btn btn-sm" style="float: right; background-color:none">x</button></p>
+            {% endif %}
+        {% endfor %}  
+        {% endblock %}
+    </div>
+
+    <div class="d-flex gap-5 flex-row">
+                <button type="button" id="edit-tab-2-control-b-btn" class=" w-50 btn btn-block">Back</button>
+                <button type="button" id="edit-tab-2-control-f-btn" class=" w-50 btn btn-block">Next</button>       
+    </div>
+
+</div>
+
+<div  id="drop-edit-details-tab-3" class="hideTab">
+
+    <div class="fieldWrapper">
+                            
+    <p><label for="edit_drop_url"> Paste your link here </label> </p>
+    <p><input class="w-100 p-2" type="url" name="drop_url" maxlength="200" id="edit_drop_url" value="{{ drop.drop_url }}"></p>
+    
+    </div>
+    
+    <div class="fieldWrapper">
+    
+    <p><label for="edit_drop_assets"> Choose your assets </label> </p>
+    <div class="border border-secondary mx-5"><center><button role="button" data-asset-id={{ drop.drop_asset }} id="edit_drop_assets" class="btn" style="margin:25% 25% 25% 25%;">Browse</button></center></div>
+    
+    </div>
+    <br>
+    <div class="fieldWrapper">
+    
+    <p><label for="edit_drop_preview"> Preview </label> </p>
+    <p><img src="" alt="Drop preview" id="edit_drop_preview"></p>
+        
+    </div>
+
+    <div class="d-flex gap-5 flex-row">
+            <button type="button" id="edit-tab-3-control-b-btn" class=" w-50 btn btn-block tab-control tab-control">Back</button>
+            <button type="button" data-drop-id="{{ drop.id }}"    id="update-drop-btn" class="w-50 btn btn-block tab-control tab-control">Update Drop</button>
+    </div>
+
+</div>
+
+
+{% endblock %}

@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="">
+
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/base.css' %}">
+
+    <!-- Load Leaflet from CDN -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.3.3/leaflet.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.3.3/leaflet.js"></script>
+
+    <!-- Load geocoding plugin after Leaflet -->
+    <link rel="stylesheet" href="https://maps.locationiq.com/v2/libs/leaflet-geocoder/1.9.6/leaflet-geocoder-locationiq.min.css">
+    <script src="https://maps.locationiq.com/v2/libs/leaflet-geocoder/1.9.6/leaflet-geocoder-locationiq.min.js"></script>
+   
+    <!--Bootstrap lib-->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+
+    <!-- jQuery lib-->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
+    <title>Search</title>
+
+</head>
+
+<body>
+
+    <div class="container-fluid h-100">
+        
+        <div class="row h-100">
+
+            <!-- start of col-1 -->
+            <div class="col-9">
+
+                <!-- start of search box container -->
+
+                <div class="location-container search-location">
+
+                    <div id="user-loc-search-box"></div>
+
+                    <div id="user-loc-result"></div>
+
+                </div>
+                <!-- end of search box container -->
+                
+                <!-- start of map -->
+                <div id="map"></div>
+                <!-- end of map -->
+            </div>
+            <!-- end of col-1 -->
+
+            <!-- start of col-2 -->
+            <div class="drop-nav col-3">
+
+                <div class="drop-details-header d-flex flex-row">
+                    <div class="w-50" id="superdrop-icon">
+                        <center><img src="{% static 'icons/logo.svg' %}" id="superdrop-icon" alt="superdrop-icon"></center>
+                    </div>
+                    <div class="w-50" style="float:right;">
+                        <center>
+                            User
+                            <img src="{% static 'icons/user_profile.svg' %}" id="user-profile-icon" alt="user-profile-icon">
+                            <img src="{% static 'icons/drop_down.svg' %}" id="user-profile-dropdown-icon" alt="▼">
+                        </center>
+                    </div>
+                </div>
+
+                <center>
+
+                <div class="drop-tab" id="home-tab">
+                    
+                    <div class=" pt-2 drop-tab-title">
+                        <p>Welcome User</p>
+                    </div>
+
+                    <div class="d-grid mt-4 mb-4">
+                        <button type="button" id="place-drop-btn" class="btn mb-4 mt-4"> Place your Drop</button>     
+                        <button type="button" id="edit-drop-btn"  class="btn mb-4 mt-4"> View/Edit your Drops</button>   
+                    </div>
+
+
+                    <div class="fieldWrapper mt-4 mb-4">
+                                
+                        <p> Trending Drops   </p>
+                        <p><label for="trending-drops" style="font-size:13px;"> Sort by Category </label> </p>
+                        <p>
+                          <select class="w-100 py-3" name="drop_category" id="trending_drop_category">
+                          <option value="0" >Animation</option>
+
+                          <option value="1">Art</option>
+
+                          <option value="2">Video</option>
+
+                          <option value="3">NFT</option>
+
+                          <option value="4">Image</option>
+
+                          <option value="5">Links</option>
+
+                          </select>
+                      </p>
+                    </div>
+
+                </div>
+
+                <div class="drop-details-tab hideTab">
+
+                    <div id="alert-message" class="d-flex flex-column"></div>
+
+                    <div class="drop-details-header w-100 border-bottom">
+                        
+                        <ul class=" drop-tab-title gap-2 mt-1 nav nav-pills mb-3" id="pills-tab" role="tablist">
+                            <li class="nav-item" role="presentation"><button class="nav-link btn btn-light active" id="pills-place-drop-tab"    data-bs-toggle="pill" data-bs-target="#pills-place-drop"    type="button" role="tab" aria-controls="pills-place-drop"    aria-selected="true"   >Place drop   </button></li>
+                            <li class="nav-item" role="presentation"><button class="nav-link btn btn-light"        id="pills-edit-drop-tab"     data-bs-toggle="pill" data-bs-target="#pills-edit-drop" type="button" role="tab" aria-controls="pills-edit-drop" aria-selected="false"  >View/Edit drops</button></li>
+                        </ul>
+
+                    </div>
+
+                    <div class="tab-pane fade show active" id="pills-place-drop" role="tabpanel" aria-labelledby="pills-place-drop-tab">
+
+                        <div class="drop-tab hideTab" id="drop-details-tab-1">
+
+
+                            {% csrf_token %}
+
+                            <div class="fieldWrapper">
+                                    
+                                    <p><label for="id_drop_title"> Title </label> </p>
+                                    <p><input class="w-100 p-2" type="text" name="drop_title" maxlength="200" required="" id="id_drop_title"></p>
+                                    
+                            </div>
+
+                            <div class="fieldWrapper">
+                                    
+                                    <p><label for="id_drop_category"> Category </label> </p>
+                                    <p><select class="w-100 py-3" name="drop_category" id="id_drop_category">
+                                        <option value="0" >Animation</option>
+
+                                        <option value="1">Art</option>
+
+                                        <option value="2">Video</option>
+
+                                        <option value="3">NFT</option>
+
+                                        <option value="4">Image</option>
+
+                                        <option value="5">Links</option>
+
+                                        </select>
+                                    </p>
+                                    
+                            </div>
+                                    
+                            <div class="fieldWrapper">
+                                    
+                                    <p><label for="id_drop_type"> Type of drop </label> </p>
+                                    <p><select class="w-100 py-3" name="drop_type" id="id_drop_type">
+                                        <option value="WEB">Website</option>
+
+                                        <option value="YT">Youtube Video</option>
+
+                                        <option value="IMG">Photo</option>
+
+                                        <option value="ANI">Animation</option>
+
+                                        <option value="AUD">Audio</option>
+
+                                        </select>
+                                    </p> 
+                            </div>
+                                    
+                            <div class="fieldWrapper">
+                                    
+                                    <p><label for="id_drop_description"> Add Description </label> </p>
+                                    <p><textarea class="w-100" name="drop_description" rows="10" required="" id="id_drop_description" ></textarea></p>
+                                    
+                            </div>
+
+                            <div class="d-flex gap-5 flex-row .align-content-end">
+                                    <button type="button" id="tab-1-control-b-btn" class=" w-50 btn btn-block tab-control">Back</button>
+                                    <button type="button" id="tab-1-control-f-btn" class=" w-50 btn btn-block tab-control">Next</button>
+                            </div>
+
+                    </div>
+
+                    <div class="drop-tab hideTab" id="drop-details-tab-2">
+
+                        <div class="fieldWrapper pt-2 pb-2 w-100">
+
+                            <p><label for="get-drop-coord"> Enter Co-ordinates </label> </p>
+                            <div class="input-group"><input type="text" name="drop_coordinates" maxlength="200" id="get-drop-coord" aria-describedby="user-drop-coord" class="form-control p-2">
+                                <button type="button" id="user-drop-coord" class="btn">Search</button>
+
+                                <div class="drop-coord-results">
+                                    
+                                </div>
+                            </div>
+                                    
+                        </div>
+
+                        <center><p>or</p></center>
+                        
+                        <div class="fieldWrapper pt-2 pb-5">
+
+                            <p>Choose location </p>
+                        
+                            <div  class="location-container drop-coord">
+
+                                <div id="drop-loc-search-box"></div>
+            
+                                <div id="get-drop-coord-locname"></div>
+            
+                            </div>
+                        
+                        </div>
+
+                        <div class="fieldWrapper trending-loc-list pb-2" style="padding-top:50px;" style="display:none"> 
+                        
+                            <p> Suggested locations </p>
+                            <p style="font-size:13px;"> Trending </p>
+                            <p> 
+                                <div id="get-drop-coord-trending" style="display:none">
+                                    <div class="d-flex gap-5 flex-row">
+                                        <button type="button" data-drop-lat='' data-drop-lon='' class="trending-loc   btn btn-block"></button>
+                                        <button type="button" data-drop-lat='' data-drop-lon='' class="trending-loc   btn btn-block"></button>
+                                        <button type="button" data-drop-lat='' data-drop-lon='' class="trending-loc   btn btn-block"></button>
+                                    </div>
+                                    <br>
+                                    <div class="d-flex gap-5 flex-row">
+                                        <button type="button" data-drop-lat='' data-drop-lon='' class="trending-loc   btn btn-block"></button>
+                                        <button type="button" data-drop-lat='' data-drop-lon='' class="trending-loc   btn btn-block"></button>
+                                        <button type="button" data-drop-lat='' data-drop-lon='' class="trending-loc   btn btn-block"></button>
+                                    </div>
+                                </div>
+                            </p>
+                                
+                        </div>
+
+                        <br>
+
+                        <center><p>or</p></center>
+
+                        <div class="fieldWrapper pt-2 pb-2">
+                        
+                        <p><label for="get-drop-coord-marker"> Place drop manually </label> </p>
+                        <div>
+                            <button type="button" id="get-drop-coord-marker" class="w-100 btn btn-block">Place drop</button> 
+                            <button type="button" id="confirm-drop-coord"    class="w-100 btn btn-block" style="display:none">Confirm drop</button>    
+                        </div>
+                            
+                        </div>
+
+                        <div class="fieldWrapper place-drop-location-list">
+                        </div>
+                        <br>
+                        <div class="d-flex gap-5 flex-row .align-content-end">
+                                    <button type="button" id="tab-2-control-b-btn" class=" w-50 btn btn-block">Back</button>
+                                    <button type="button" id="tab-2-control-f-btn" class=" w-50 btn btn-block">Next</button>       
+                        </div>
+
+                    </div>
+
+                    <div class="drop-tab hideTab" id="drop-details-tab-3" >
+
+                        <div class="fieldWrapper">
+                                                
+                        <p><label for="id_drop_url"> Paste your link here </label> </p>
+                        <p><input class="w-100 p-2" type="url" name="drop_url" maxlength="200" id="id_drop_url"></p>
+                        
+                        </div>
+                        
+                        <div class="fieldWrapper w-100">
+                        
+                        <p><label for="id_drop_assets"> Choose your assets </label> </p>
+                        <div  class="border border-secondary mx-5">
+                            <center><button role="button" data-asset-id='' id="id_drop_assets" class="btn" style="margin:25% 25% 25% 25%;">Browse</button></center>
+                        </div>
+                        
+                        </div>
+
+                        <div class="fieldWrapper">
+                        
+                        <p><label for="id_drop_preview"> Preview </label> </p>
+                        <p><img src="" alt="Drop preview" id="id_drop_preview"></p>
+                            
+                        </div>
+
+                        <div class="d-flex gap-5 flex-row .align-content-end">
+                                <button type="button" id="tab-3-control-b-btn" class=" w-50 btn btn-block tab-control">Back</button>
+                                <button type="button" id="drop-btn"            class=" w-50 btn btn-block tab-control">Drop</button>
+                        </div>
+
+                    </div>
+
+
+                </div>
+
+                <!-- end of place drop tab-->
+
+
+                <div class="tab-pane fade" id="pills-edit-drop" role="tabpanel" aria-labelledby="pills-edit-drop-tab">
+                    
+
+                <div class="update-drop-list">
+
+                </div>
+
+                <div class="drop-edit-details-tab">
+
+                </div>
+                <!-- end of drop edit details-->
+
+                </div>
+                <!-- end of edit drop tab-->
+
+
+            </div>
+            </center>
+
+        </div>
+        <!-- end of col-2 -->
+
+        </div>
+        <!-- end of row-->
+
+        <div class="location-drop-details px-5" style="display:none;">
+        </div> 
+        <!-- end of location drops-->
+
+        <div class="asset-library p-5" style="display:none">
+            <div id="drop-assets-list"></div>
+            <h3 class="p-3">Asset Library<button class="btn p-2" id="hide-asset-lib-btn"style="float:right; background-color:none">X</button></h3>
+            <br>
+            <div class="row row-cols-1 row-cols-md-3 g-4">
+                <div class="col">
+                  <div class="card asset-lib-card" style="width: 18rem;">
+                    <img src="{% static 'assets/asset_1.jpeg' %}" class="first-image">
+                  <div class="card-body">
+                    <button data-asset-id="asset_1" class="w-100 btn btn-block add-asset-btn">Add item</button>
+                    <hr><center><h5 class="card-title"></h5></center>
+                  </div>
+                  </div>
+                </div>
+                <div class="col">
+                    <div class="card asset-lib-card" style="width: 18rem;">
+                      <img src="{% static 'assets/asset_2.jpeg' %}" class="first-image">
+                    <div class="card-body">
+                      <button data-asset-id="asset_2" class="w-100 btn btn-block add-asset-btn">Add item</button>
+                      <hr><center><h5 class="card-title"></h5></center>
+                    </div>
+                    </div>
+                  </div>
+                  <div class="col">
+                    <div class="card asset-lib-card" style="width: 18rem;">
+                      <img src="{% static 'assets/asset_3.jpeg' %}" class="first-image">
+                    <div class="card-body">
+                      <button data-asset-id="asset_3" class="w-100 btn btn-block add-asset-btn">Add item</button>
+                      <hr><center><h5 class="card-title"></h5></center>
+                    </div>
+                    </div>
+                  </div>
+                  <div class="col">
+                    <div class="card asset-lib-card" style="width: 18rem;">
+                      <img src="{% static 'assets/asset_2.jpeg' %}" class="first-image">
+                    <div class="card-body">
+                      <button data-asset-id="asset_2" class="w-100 btn btn-block add-asset-btn">Add item</button>
+                      <hr><center><h5 class="card-title"></h5></center>
+                    </div>
+                    </div>
+                  </div>
+                  <div class="col">
+                    <div class="card asset-lib-card" style="width: 18rem;">
+                      <img src="{% static 'assets/asset_3.jpeg' %}" class="first-image">
+                    <div class="card-body">
+                      <button data-asset-id="asset_3" class="w-100 btn btn-block add-asset-btn">Add item</button>
+                      <hr><center><h5 class="card-title"></h5></center>
+                    </div>
+                    </div>
+                  </div>
+                  <div class="col">
+                    <div class="card asset-lib-card" style="width: 18rem;">
+                      <img src="{% static 'assets/asset_1.jpeg' %}" class="first-image">
+                    <div class="card-body">
+                      <button data-asset-id="asset_1" class="w-100 btn btn-block add-asset-btn">Add item</button>
+                      <hr><center><h5 class="card-title"></h5></center>
+                    </div>
+                    </div>
+                  </div>
+                  <div class="col">
+                    <div class="card asset-lib-card" style="width: 18rem;">
+                      <img src="{% static 'assets/asset_2.jpeg' %}" class="first-image">
+                    <div class="card-body">
+                      <button data-asset-id="asset_2" class="w-100 btn btn-block add-asset-btn">Add item</button>
+                      <hr><center><h5 class="card-title"></h5></center>
+                    </div>
+                    </div>
+                  </div>
+            </div>
+            
+
+        </div>
+        <!-- end of asset library-->
+
+    </div>
+    <!-- end of container -->
+
+
+    <div class="loader-container">
+        <center>
+            <div class="loader"></div>
+            <br>
+            Loading...
+        </center>
+    </div>
+
+
+    <script>
+
+        window.onload=(event)=>{
+              document.querySelector('.loader').style.display='none';
+              document.querySelector('.loader-container').style.display='none';
+        }
+
+    </script>
+
+<!-- Rendering map and getting data -->
+<script type="module" src="{% static 'js/drop_map.js' %}"></script>
+<script type="module" src="{% static 'js/script.js' %}"></script>
+<script type="module" src="{% static 'js/getSearchResults.js' %}"></script>
+
+</body>
+
+
+</html>
