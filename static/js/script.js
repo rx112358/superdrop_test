@@ -509,6 +509,7 @@ function get_asset_lib()
         {
             let asset_lib_container=document.querySelector(".asset-library")
             asset_lib_container.innerHTML=asset_lib_container.innerHTML+doc.innerHTML
+            return asset_lib_container.innerHTML
         })
         .then( function(result)
         {
