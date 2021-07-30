@@ -22,6 +22,6 @@ from api_app.views import wrong_path
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('api_app.urls')),
-    path('', include('customauth.urls')),
+    path('user/', include('customauth.urls')),
     #re_path(r'[a-zA-Z_0-9]*',wrong_path),
 ]
