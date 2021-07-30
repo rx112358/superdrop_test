@@ -4,7 +4,7 @@
 {% for drop in drops %}
 
     <div class="drop-asset-card user-drops w-60 h-20 p-3 my-2 card" data-drop-id="{{ drop.id }}">
-        {% with drop.drop_asset|add:'.svg' as image %}
+        {% with drop.drop_asset|add:'.jpeg' as image %}
         <img src="{% static 'assets/'|add:image %}" class="card-img-top" alt="...">
         {% endwith %}
         <div class="card-body">

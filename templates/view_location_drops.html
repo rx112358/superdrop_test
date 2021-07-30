@@ -5,7 +5,7 @@
 {% for drop in drops %}
 
     <div class="drop-asset-card w-60 h-20 p-3 card">
-        {% with drop.drop_asset|add:'.svg' as image %}
+        {% with drop.drop_asset|add:'.jpeg' as image %}
         <img src="{% static 'assets/'|add:image %}" class="card-img-top" alt="...">
         {% endwith %}
         <div class="card-body">
