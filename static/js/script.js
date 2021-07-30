@@ -499,6 +499,11 @@ function reset_tab_coord(tab)
            element.value = '';
         }
     );
+    Array.from(document.querySelector(tab).getElementsByTagName('textarea')).forEach( 
+        function(element) {
+           element.value = '';
+        }
+    );
     // hide trending locations 
     let trending_loc_container=document.querySelector(tab).parentElement.querySelector('.trending-loc-list')
     if(trending_loc_container.style.display=='none')
