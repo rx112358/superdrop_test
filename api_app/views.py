@@ -46,17 +46,6 @@ def get_drop_form(request):
     response=render(request, "index.html")
     return response
 
-#@login_required(login_url='/accounts/login/')
-def get_asset_lib(request):
-    '''
-
-    Render asset lib
-
-    '''
-    response=render(request, "asset_lib.html")
-
-    return response
-
 @csrf_exempt
 def create_drop(request):
 

@@ -477,56 +477,18 @@ document.querySelector("#drop-btn").addEventListener('click', function(event) {
 
 })
 
-function get_asset_lib()
-{
-    function set_asset_lib()
-    {
-        document.querySelector(".asset-library").style.display='block';
-        document.querySelectorAll(".add-asset-btn" ).forEach(el => el.addEventListener('click',function(){ 
-                document.querySelector(browse_btn_id).dataset.assetId=this.dataset.assetId;
-                addtoDrop();    })
-                )
-        document.querySelector("#hide-asset-lib-btn" ).addEventListener('click',function(){ 
-            document.querySelector(".asset-library").style.display='none';
-        } )
-    }
-    let url='/assetList'
-    fetch(url, {
-        method: 'GET',
-        })
-        .then(function (response) {
-          //console.log(response.status);
-          return response.text();
-        })
-        .then(function (html) {
-  
-        // Convert the HTML string into a document object
-        var parser = new DOMParser();
-        var doc = parser.parseFromString(html, 'text/html');
-        return doc.body 
-        })
-        .then( function(doc)
-        {
-            let asset_lib_container=document.querySelector(".asset-library")
-            asset_lib_container.innerHTML=asset_lib_container.innerHTML+doc.innerHTML
-            return asset_lib_container.innerHTML
-        })
-        .then( function(result)
-        {
-            set_asset_lib();
-        })
-        .catch(error => {
-        //console.error('Error:', error);
-        });
-
-}
-
-
 function show_asset_lib(browse_btn_id)
 {
      // change display attr of asset library to block when btn clicked
      document.querySelector(browse_btn_id).addEventListener('click',function(){
-        get_asset_lib();
+        document.querySelector(".asset-library").style.display='block';
+    } )
+    document.querySelectorAll(".add-asset-btn" ).forEach(el => el.addEventListener('click',function(){ 
+            document.querySelector(browse_btn_id).dataset.assetId=this.dataset.assetId;
+            addtoDrop();    })
+            )
+    document.querySelector("#hide-asset-lib-btn" ).addEventListener('click',function(){ 
+        document.querySelector(".asset-library").style.display='none';
     } )
 }
 
