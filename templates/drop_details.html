@@ -90,7 +90,9 @@
     
     </div>
 
-    <div class="fieldWrapper trending-loc-list pb-5" style="padding-top: 50px;" style="display:none"> 
+    <!--
+
+    <div class="fieldWrapper trending-loc-list pb-5" style="padding-top: 30px;" style="display:none"> 
     
         <p> Suggested locations </p>
         <p style="font-size:13px;"> Trending </p>
@@ -111,8 +113,7 @@
         </p>
             
     </div>
-
-    <br>
+    -->
 
     <center><p>or</p></center>
 
@@ -126,7 +127,7 @@
         
     </div>
 
-    <div class="fieldWrapper edit-drop-location-list">
+    <div class="fieldWrapper edit-drop-location-list" style="max-height: 200px; overflow-y: scroll;">
         {% block locations %}
         {% for location in locations %}
             {%   if location.location_name is not None and location.location_id is not None  %}
