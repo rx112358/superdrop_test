@@ -76,7 +76,7 @@ function reverse_geocode(lat,lon)
         {
             // check if reverse geocoding was done successfully
             // if so,return data
-            if(data.error=="Invalid Request")
+            if('error' in Object.keys(data))
                 {//console.log(data)
                     alert("Unable to identify your current location");
                 }
@@ -97,7 +97,9 @@ function get_geocode_locations(location_list_id,lat,lon)
         let drop_lat=user_location['lat']
         let drop_lon=user_location['lon']
         //console.log(user_location)
-        addLocation(location_list_id,drop_placename,drop_lat,drop_lon)
+
+        if(drop_lat!=undefined && drop_lon!=undefined && drop_placename!=undefined)
+            addLocation(location_list_id,drop_placename,drop_lat,drop_lon)
         }
     })
     .catch(err=>{
