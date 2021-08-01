@@ -319,6 +319,8 @@ select
     position: relative;
     text-decoration: none;
     letter-spacing: var(--letter-spacing);
+    font-size: small;
+    text-align: center !important;
     overflow: hidden;
 
     max-width: 312px;
