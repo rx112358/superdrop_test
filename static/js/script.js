@@ -467,7 +467,7 @@ document.querySelector("#drop-btn").addEventListener('click', function(event) {
                 
                 let drop_id=response['dropId'];
 
-                showAlert('<p>Drop created!</p>')
+                showAlert('<p>Your drop is discoverable at the target location’</p>')
                 console.log(" Form data submitted ",drop_id);
             },
         // on error
