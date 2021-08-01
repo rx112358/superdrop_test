@@ -67,4 +67,4 @@ def user_login(request):
         # Return an 'invalid login' error message.
         messages.error(request, "Unsuccessful registration. Invalid information.")
             
-    return render(request=request, template_name="../templates/login.html")
+    return render(request=request, template_name="/customauth/templates/login.html")
