@@ -1,19 +1,19 @@
 {% load static %}
 <br>
-<div class="card-deck">
-{% block drops %}
-{% for drop in drops %}
-
-    <div class="drop-asset-card w-60 h-20 p-3 card">
-        {% with drop.drop_asset|add:'.jpeg' as image %}
-        <img src="{% static 'assets/'|add:image %}" class="card-img-top" alt="...">
-        {% endwith %}
-        <div class="card-body">
-        <h5 class="card-title">{{ drop.drop_title}}</h5>
-        <p class="card-text">{{ drop.drop_description}}</p>
+<div class="row row-cols-1 row-cols-md-3 g-4">
+    {% block drops %}
+    {% for drop in drops %}
+    <div class="col">
+        <div class="drop-asset-card w-60 h-20 p-3 card">
+            {% with drop.drop_asset|add:'.jpeg' as image %}
+            <img src="{% static 'assets/'|add:image %}" class="card-img-top" alt="...">
+            {% endwith %}
+            <div class="card-body">
+            <h5 class="card-title">{{ drop.drop_title}}</h5>
+            <p class="card-text">{{ drop.drop_description}}</p>
+            </div>
         </div>
     </div>
-
 {% endfor %}
 {% endblock %}
 </div> 

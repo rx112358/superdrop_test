@@ -289,7 +289,7 @@ function updateDrop(drop_id)
             function (response) {
                 
                 let drop_id=response['dropId'];
-
+                showAlert('<p>The drop details have been updated.</p>')
                 console.log(" Form data submitted ",drop_id);
             },
         // on error
@@ -469,6 +469,7 @@ document.querySelector("#drop-btn").addEventListener('click', function(event) {
                 
                 let drop_id=response['dropId'];
 
+                showAlert('<p>Drop created!</p>')
                 console.log(" Form data submitted ",drop_id);
             },
         // on error
