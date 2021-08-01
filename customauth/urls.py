@@ -18,6 +18,6 @@ from django.urls import path
 from customauth.views import user_login,user_register
 
 urlpatterns = [
-path('user_login', user_login),
-path('user_register', user_register)
+path('login', user_login),
+path('register', user_register)
 ]

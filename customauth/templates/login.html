@@ -5,17 +5,34 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
   {% load static %}
-  <link rel="stylesheet" href="{% static 'css/base.css' %}">
+  <link rel="stylesheet" href="{% static 'css/login.css' %}">
   <title>Search</title>
 
 </head>
 <body>
-    <form method='post' id="drop_data_form">
-      <table>
-          {% csrf_token %}
-          {{form.as_table}}
-      </table>
-      <center><button class="btn" type="submit" id="login_btn">Next</button></center>
-  </form>
-</body>
-</html>
+          <div id="card">
+            <div id="card-content">
+              <div id="card-title">
+                <h2>LOGIN</h2>
+                <div class="underline-title"></div>
+              </div>
+              <form method='post' id="drop_data_form" class="form" action="/login">
+                <label for="email" style="padding-top:13px">
+                    &nbsp;Email
+                  </label>
+                <input id="email" class="form-content" type="email" name="email" autocomplete="on" required />
+                <div class="form-border"></div>
+                <label for="password" style="padding-top:22px">&nbsp;Password
+                  </label>
+                <input id="password" class="form-content" type="password" name="password" required />
+                <div class="form-border"></div>
+                <a href="#">
+                  <legend id="forgot-pass">Forgot password?</legend>
+                </a>
+                <input id="submit-btn" type="submit" name="submit" value="LOGIN" />
+              </form>
+            </div>
+          </div>
+        </body>
+        
+        </html>
