@@ -167,8 +167,10 @@ function editDrop(drop_id)
         let location_container={'user_coordinates_container':{'search_box_id':'#edit-drop-coord','search_btn':'#edit-drop-coord-btn'},'search_coordinates_container_id':'#update-drop-loc-search-box','place_drop_coordinates':['#edit-drop-coord-marker','#confirm-edit-drop'],'location_list_id':'.edit-drop-location-list'}
 
         // change update drop tabs
-        document.querySelector('#edit-tab-3-control-b-btn').addEventListener('click',function() {    $('.drop-edit-details-tab').children().hide(); $('#drop-edit-details-tab-2').show();  if( checkIfEmpty('#update-drop-loc-search-box')) { createSearch('#update-drop-loc-search-box',options,'update-drop-coord',add_location); get_drop_location(location_container);  get_trending_locations(location_container['location_list_id'],'#edit-drop-coord-trending')  }   }   )
-        document.querySelector('#edit-tab-1-control-f-btn').addEventListener('click',function() {    $('.drop-edit-details-tab').children().hide(); $('#drop-edit-details-tab-2').show();  if( checkIfEmpty('#update-drop-loc-search-box')) { createSearch('#update-drop-loc-search-box',options,'update-drop-coord',add_location); get_drop_location(location_container);  get_trending_locations(location_container['location_list_id'],'#edit-drop-coord-trending')  }   }   )
+        document.querySelector('#edit-tab-3-control-b-btn').addEventListener('click',function() {    $('.drop-edit-details-tab').children().hide(); $('#drop-edit-details-tab-2').show();  if( checkIfEmpty('#update-drop-loc-search-box')) { createSearch('#update-drop-loc-search-box',options,'update-drop-coord',add_location); get_drop_location(location_container);  //get_trending_locations(location_container['location_list_id'],'#edit-drop-coord-trending')  
+        }   }   )
+        document.querySelector('#edit-tab-1-control-f-btn').addEventListener('click',function() {    $('.drop-edit-details-tab').children().hide(); $('#drop-edit-details-tab-2').show();  if( checkIfEmpty('#update-drop-loc-search-box')) { createSearch('#update-drop-loc-search-box',options,'update-drop-coord',add_location); get_drop_location(location_container);  //get_trending_locations(location_container['location_list_id'],'#edit-drop-coord-trending')  
+        }   }   )
         document.querySelector('#edit-tab-2-control-f-btn').addEventListener('click',function() {    $('.drop-edit-details-tab').children().hide(); $('#drop-edit-details-tab-3').show();   show_asset_lib("#edit_drop_assets");  })
         document.querySelector('#edit-tab-2-control-b-btn').addEventListener('click',function() {    $('.drop-edit-details-tab').children().hide(); $('#drop-edit-details-tab-1').show();   }   )
 
@@ -319,7 +321,8 @@ function delDrop(ele,drop_id)
             },
         // on error
         error: function (response) {
-            console.log(response.errors) }
+            //console.log(response.errors) 
+        }
         });// end of ajax call
 
 }
