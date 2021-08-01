@@ -17,6 +17,7 @@
                 <div class="underline-title"></div>
               </div>
               <form method='post' id="drop_data_form" class="form" action="/user/login">
+                {% csrf_token %}
                 <label for="email" style="padding-top:13px">
                     &nbsp;Email
                   </label>
