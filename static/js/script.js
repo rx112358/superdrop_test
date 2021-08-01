@@ -37,7 +37,7 @@ function addLocation(location_id,drop_locname,drop_lat,drop_lon)
 function addtoDrop(){
     let asset_list = document.getElementById("drop-assets-list");
     asset_list.classList.add("show-alert");
-    asset_list.innerHTML = '<i class="drop-asset-item"></i> Item added to drop';
+    asset_list.innerHTML = '<p>Item added to drop<p>';
     setTimeout(function(){
     asset_list.classList.remove("show-alert");
     }, 3000);
@@ -238,7 +238,6 @@ function updateDrop(drop_id)
     'category'      :   document.querySelector('#edit_drop_category').value    ,
     'type'          :   document.querySelector('#edit_drop_type').value        ,
     'description'   :   clean_ipfield(document.querySelector('#edit_drop_description').value) ,
-    'url'           :   document.querySelector('#edit_drop_url').value         ,
     }
 
     Object.keys(field_values).forEach((key)=>{
@@ -417,7 +416,6 @@ document.querySelector("#drop-btn").addEventListener('click', function(event) {
     'category'      :   document.querySelector('#id_drop_category').value    ,
     'type'          :   document.querySelector('#id_drop_type').value        ,
     'description'   :   clean_ipfield(  document.querySelector('#id_drop_description').value ) ,
-    'url'           :   document.querySelector('#id_drop_url').value         ,
     }
 
     Object.keys(field_values).forEach((key)=>{

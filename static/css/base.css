@@ -319,7 +319,7 @@ select
     position: relative;
     text-decoration: none;
     letter-spacing: var(--letter-spacing);
-    font-size: small;
+    font-size: small !important; 
     text-align: center !important;
     overflow: hidden;
 
