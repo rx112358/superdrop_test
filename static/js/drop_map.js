@@ -38,13 +38,24 @@ function set_lat_lng(display_name, lat, lng,result_id,add_location) {
 
 }
 
+function create_icon()
+{
+  let options={
+    iconUrl:'/static/icons/logo.svg'
+  }
+  let icon = L.icon(options);
+  return icon;
+}
+
 function create_marker(lat,lng)
 {
   // panning the map to the point lat,lng
   map.setView([lat,lng],15);
 
+  let drop_icon=create_icon();
+
   // adding the marker to the point lat,lng
-  var marker=L.marker([lat, lng]);
+  var marker=L.marker([lat, lng],{icon:drop_icon});
   
   marker.addTo(map);
 
@@ -65,10 +76,12 @@ function create_marker(lat,lng)
 function create_draggable_marker()
 {
   let center=map.getCenter()
+  let position=center.getLatLng();
+  let drop_icon=create_icon();
   // Add a 'marker'
-  var marker = L.marker( center, {draggable: true} )
+  var marker = L.marker( center, {draggable: true,icon:drop_icon} )
   .addTo(map)
-  .bindPopup(`Current LatLng`,center.toString())
+  .bindPopup(`Current LatLng`,position.toString())
   .openPopup();
 
 
