@@ -75,8 +75,7 @@ function create_marker(lat,lng)
 
 function create_draggable_marker()
 {
-  let center=map.getCenter()
-  let position=center.getLatLng();
+  let position=map.getCenter();
   let drop_icon=create_icon();
   // Add a 'marker'
   var marker = L.marker( center, {draggable: true,icon:drop_icon} )
