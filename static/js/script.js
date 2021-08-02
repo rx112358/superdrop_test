@@ -145,7 +145,7 @@ function get_drop_location(location_container)
     })
     confirm_drop_btn.addEventListener('click',function(){
         confirm_drop_btn.style.display='none';
-        marker.remove();
+        //marker.remove();
         place_drop_btn.style.display='block';
         if(marker_coord[0] !=undefined || marker_coord[1]!=undefined )
         get_geocode_locations(location_container['location_list_id'],marker_coord[0],marker_coord[1])
