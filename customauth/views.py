@@ -48,7 +48,7 @@ def user_register(request):
     
     messages.error(request, "Unsuccessful registration. Invalid information.")
 
-    return render(request, '../templates/register.html')
+    return render(request, 'register.html')
 
 def user_login(request):
 
@@ -67,9 +67,9 @@ def user_login(request):
         # Return an 'invalid login' error message.
         messages.error(request, "Unsuccessful registration. Invalid information.")
             
-    return render(request,"../customauth/templates/login.html")
+    return render(request,"login.html")
 
 def user_logout(request):
 
     logout(request)
-    return render(request,'../customauth/templates/index.html')
+    return render(request,'home.html')
