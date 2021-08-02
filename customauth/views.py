@@ -72,4 +72,4 @@ def user_login(request):
 def user_logout(request):
 
     logout(request)
-    return render(request,'home.html')
+    return redirect('home.html')
