@@ -170,11 +170,11 @@ function editDrop(drop_id)
 
     function updateEditTab(doc)
     {
-        updateUserInputType('edit_drop_category');
         
         $('.update-drop-list').hide();
         $('.drop-edit-details-tab').show();
-        document.querySelector('.drop-edit-details-tab').innerHTML=doc.innerHTML; 
+        document.querySelector('.drop-edit-details-tab').innerHTML=doc.innerHTML;
+        updateUserInputType('edit_drop_category');
 
         let location_container={'user_coordinates_container':{'search_box_id':'#edit-drop-coord','search_btn':'#edit-drop-coord-btn'},'search_coordinates_container_id':{'search_box_id':'#update-drop-loc-search-box','search_results':'update-drop-coord-locname'},'place_drop_coordinates':['#edit-drop-coord-marker','#confirm-edit-drop'],'location_list_id':'.edit-drop-location-list','geocoderControl':'edit_drop_geocoderControl'}
 
