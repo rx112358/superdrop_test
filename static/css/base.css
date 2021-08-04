@@ -195,9 +195,16 @@ overflow-y: scroll;
   height: 7px;
 }
 
-#pills-place-drop-tab ,#pills-edit-drop-tab
+.drop-tab-title > li
 {
-  background-color:none;
+  color:var(--color-mid) !important; 
+  background-color:white !important;
+} 
+
+.drop-tab-title > li.active
+{
+  color:var(--color-primary) !important; 
+  background-color:white !important;
 } 
 
 .location-drop-details

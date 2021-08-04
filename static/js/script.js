@@ -1,6 +1,9 @@
 import { create_marker,createSearch, create_draggable_marker} from './drop_map.js';
 import { getVenueData,getCoordinates,getUserCoordinates} from './getSearchResults.js';
 
+const place_drop_geocoderControl='';
+const edit_drop_geocoderControl='';
+
 function showAlert(message){
     var alert_container = document.getElementById("alert-message");
     alert_container.innerHTML = message;
@@ -17,9 +20,6 @@ function removeLocation(parent)
 
 function addLocation(location_id,drop_locname,drop_lat,drop_lon)
 {
-    // add marker to map
-    create_draggable_marker(drop_lat,drop_lon)
-
     let new_location_html=`<p><span class="drop-locname-list" data-drop-lat='${drop_lat}' data-drop-lon='${drop_lon}'>${drop_locname}</span><button type="button" class="drop-location-remove-btn btn btn-sm" style="float:right; color:none">x</button></p>`       
     document.querySelector(location_id).innerHTML+=new_location_html    
     document.querySelectorAll('.drop-location-remove-btn').forEach(el => el.addEventListener('click',function(){ 
@@ -107,8 +107,10 @@ function get_geocode_locations(location_list_id,lat,lon)
 
 }
 
+
 function get_drop_location(location_container)
 {
+
     let marker='',marker_coord=[undefined,undefined];
     // get drop location from coordinates
     document.querySelector(location_container['user_coordinates_container']['search_btn']).addEventListener('click',function()
@@ -121,12 +123,20 @@ function get_drop_location(location_container)
                 {
                     marker_coord[0]=coord[0]
                     marker_coord[1]=coord[1]
+                        // add marker to map
+                    marker=create_draggable_marker(marker_coord[0],marker_coord[1])
                     //get_geocode_locations(location_container['location_list_id'],coord[0],coord[1]);
                 }
             }
 
         })
     // get drop location from auto complete search box
+      //Initialize the geocoder
+    location_container['geocoderControl'].on('select', (e) =>  {  
+        marker_coord[0]=e-latlng.lat;
+        marker_coord[1]=e-latlng.lng;
+        marker=create_draggable_marker(marker_coord[0],marker_coord[1])    
+    });
 
     // placing marker on map and getting coordinates of marker
     let place_drop_btn=document.querySelector(location_container['place_drop_coordinates'][0])
@@ -134,21 +144,22 @@ function get_drop_location(location_container)
         
     place_drop_btn.addEventListener('click',()=>{
         marker=create_draggable_marker();
-        //let position = marker.getLatLng();
-        //console.log(position.toString())
-        marker.on('dragend', function(event) {
-            let position = marker.getLatLng();
-            marker_coord[0]=position.lat
-            marker_coord[1]=position.lng
-        });
-        //place_drop_btn.style.display='none';
+
     })
 
 
     confirm_drop_btn.addEventListener('click',function(){
         //marker.remove();
         if(marker_coord[0] !=undefined || marker_coord[1]!=undefined )
-        get_geocode_locations(marker,location_container['location_list_id'],marker_coord[0],marker_coord[1])
+        {
+            if(marker !=undefined)
+            {
+                let position = marker.getLatLng();
+                marker_coord[0]=position.lat
+                marker_coord[1]=position.lng
+                get_geocode_locations(location_container['location_list_id'],marker_coord[0],marker_coord[1])
+            }
+        }
     })
 
 
@@ -159,18 +170,19 @@ function editDrop(drop_id)
 
     function updateEditTab(doc)
     {
+        updateUserInputType('edit_drop_category');
+        
         $('.update-drop-list').hide();
         $('.drop-edit-details-tab').show();
         document.querySelector('.drop-edit-details-tab').innerHTML=doc.innerHTML; 
 
-        let add_location={display_location:'true',location_id:'.edit-drop-location-list'}
-        let location_container={'user_coordinates_container':{'search_box_id':'#edit-drop-coord','search_btn':'#edit-drop-coord-btn'},'search_coordinates_container_id':'#update-drop-loc-search-box','place_drop_coordinates':['#edit-drop-coord-marker','#confirm-edit-drop'],'location_list_id':'.edit-drop-location-list'}
+        let location_container={'user_coordinates_container':{'search_box_id':'#edit-drop-coord','search_btn':'#edit-drop-coord-btn'},'search_coordinates_container_id':{'search_box_id':'#update-drop-loc-search-box','search_results':'update-drop-coord-locname'},'place_drop_coordinates':['#edit-drop-coord-marker','#confirm-edit-drop'],'location_list_id':'.edit-drop-location-list','geocoderControl':'edit_drop_geocoderControl'}
 
         // change update drop tabs
-        document.querySelector('#edit-tab-3-control-b-btn').addEventListener('click',function() {    $('.drop-edit-details-tab').children().hide(); $('#drop-edit-details-tab-2').show();  if( checkIfEmpty('#update-drop-loc-search-box')) { createSearch('#update-drop-loc-search-box',options,'update-drop-coord',add_location); get_drop_location(location_container);  //get_trending_locations(location_container['location_list_id'],'#edit-drop-coord-trending')  
-        }   }   )
-        document.querySelector('#edit-tab-1-control-f-btn').addEventListener('click',function() {    $('.drop-edit-details-tab').children().hide(); $('#drop-edit-details-tab-2').show();  if( checkIfEmpty('#update-drop-loc-search-box')) { createSearch('#update-drop-loc-search-box',options,'update-drop-coord',add_location); get_drop_location(location_container);  //get_trending_locations(location_container['location_list_id'],'#edit-drop-coord-trending')  
-        }   }   )
+        document.querySelector('#edit-tab-3-control-b-btn').addEventListener('click',function() {    $('.drop-edit-details-tab').children().hide(); $('#drop-edit-details-tab-2').show();  if( checkIfEmpty('#update-drop-loc-search-box')) { edit_drop_geocoderControl=createSearch(location_container['search_coordinates_container_id']['search_box_id'],options,location_container['search_coordinates_container_id']['search_results']); get_drop_location(place_drop_location_container); }  //get_trending_locations(location_container['location_list_id'],'#edit-drop-coord-trending')  
+        }   )
+        document.querySelector('#edit-tab-1-control-f-btn').addEventListener('click',function() {    $('.drop-edit-details-tab').children().hide(); $('#drop-edit-details-tab-2').show();  if( checkIfEmpty('#update-drop-loc-search-box')) { edit_drop_geocoderControl=createSearch(location_container['search_coordinates_container_id']['search_box_id'],options,location_container['search_coordinates_container_id']['search_results']); get_drop_location(place_drop_location_container); }  //get_trending_locations(location_container['location_list_id'],'#edit-drop-coord-trending') 
+        }   )
         document.querySelector('#edit-tab-2-control-f-btn').addEventListener('click',function() {    $('.drop-edit-details-tab').children().hide(); $('#drop-edit-details-tab-3').show();   show_asset_lib("#edit_drop_assets");  })
         document.querySelector('#edit-tab-2-control-b-btn').addEventListener('click',function() {    $('.drop-edit-details-tab').children().hide(); $('#drop-edit-details-tab-1').show();   }   )
 
@@ -181,7 +193,7 @@ function editDrop(drop_id)
         }))
 
         // update drop when btn is clicked
-        document.querySelector("#update-drop-btn").addEventListener('click', function(event) {updateDrop(this.dataset.dropId)}   )
+        document.querySelector("#update-drop-btn").addEventListener('click', function(event) {updateDrop(this.dataset.dropId);   reset_markers();}   )
     }
 
     let drop_data=[{"drop id":drop_id}]
@@ -230,7 +242,9 @@ function getDropLocations(location_list_id)
 function updateDrop(drop_id)
 {
     let data = {},valid_fields=true;
-    let drop_locations=getDropLocations('.edit-drop-location-list')
+
+    let drop_location_container='.edit-drop-location-list'
+    let drop_locations=getDropLocations(drop_location_container)
     let message='';
 
     let field_values={
@@ -238,6 +252,8 @@ function updateDrop(drop_id)
     'category'      :   document.querySelector('#edit_drop_category').value    ,
     'description'   :   clean_ipfield(document.querySelector('#edit_drop_description').value) ,
     }
+    let url        =   document.querySelector('#edit_drop_url').value                            
+    let file       =   document.querySelector('#edit_drop_file').value  
 
     Object.keys(field_values).forEach((key)=>{
         //console.log(field_values[key])
@@ -248,6 +264,18 @@ function updateDrop(drop_id)
         }
     })
 
+    if(field_values['category']==4)
+    {
+        message=message+`<p>The field drop url is required<p>`
+        valid_fields=false;
+    }
+
+    if(field_values['category']==5)
+    {
+        message=message+`<p>The field drop file is required<p>`
+        valid_fields=false;
+    }
+
     let asset_id=document.querySelector('#edit_drop_assets').dataset.assetId
 
     if(asset_id=='')
@@ -255,7 +283,7 @@ function updateDrop(drop_id)
         message=message+`<p>The field drop assets is required<p>`
             valid_fields=false
     }
-    if( drop_locations.length==0  ) 
+    if( drop_location_container.childElementCount==0  ) 
     {
         message=message+`<p>The field drop locations is required<p>`
             valid_fields=false
@@ -270,7 +298,8 @@ function updateDrop(drop_id)
         'drop_title'       : field_values['title'],
         'drop_category'    : field_values['category'],
         'drop_description' : field_values['description'],
-        'drop_url'	       : field_values['url'],
+        'drop_url'	       : url,
+        'drop_file'        : file,
         'drop_asset_id'    : asset_id,
         'drop_locations'   : JSON.stringify(drop_locations)                          
         }
@@ -395,6 +424,98 @@ function get_trending_locations(location_id,container_id)
         });
 
 }
+  
+function validFileType(file) {
+    // https://developer.mozilla.org/en-US/docs/Web/Media/Formats/Image_types
+    const imageFileTypes = [
+        "image/apng",
+        "image/bmp",
+        "image/gif",
+        "image/jpeg",
+        "image/pjpeg",
+        "image/png",
+        "image/svg+xml",
+        "image/tiff",
+        "image/webp",
+        "image/x-icon"
+    ];
+    return imageFileTypes.includes(file.type);
+}
+
+function updateFileDisplay() {
+
+    const preview = document.querySelector('.preview');
+    while(preview.firstChild) {
+      preview.removeChild(preview.firstChild);
+    }
+  
+    const curFiles = input.files;
+    if(curFiles.length === 0) {
+      const para = document.createElement('p');
+      para.textContent = 'No files currently selected for upload';
+      preview.appendChild(para);
+    } else {
+      const list = document.createElement('ol');
+      preview.appendChild(list);
+  
+      for(const file of curFiles) {
+        const listItem = document.createElement('li');
+        const para = document.createElement('p');
+        if(validFileType(file)) {
+          para.textContent = `File name ${file.name}, file size ${returnFileSize(file.size)}.`;
+          const image = document.createElement('img');
+          image.src = URL.createObjectURL(file);
+  
+          listItem.appendChild(image);
+          listItem.appendChild(para);
+        } else {
+          para.textContent = `File name ${file.name}: Not a valid file type. Update your selection.`;
+          listItem.appendChild(para);
+        }
+  
+        list.appendChild(listItem);
+      }
+    }
+  }
+
+function getFiles()
+{
+    const input = document.getElementsByName('file')[-1];
+
+    //input.style.opacity = 0;
+
+    input.addEventListener('change', updateFileDisplay);
+
+}
+
+function updateUserInputType(category_id)
+{
+    const selectElement = document.getElementById(category_id);
+
+    let drop_url_container =    document.querySelector('.dropUrl');
+    let drop_file_container=    document.querySelector('.dropFile');
+
+    let drop_url_value= drop_url_container.getElementsByTagName('input')[0].value    
+    let drop_file_value= drop_file_container.getElementsByTagName('input')[0].value
+
+    selectElement.addEventListener('change', (event) => {
+        switch(event.target.value)
+        {
+            case '4':
+                drop_url_container.classList.remove('hideTab')
+                drop_file_value=''
+                break
+            case '5':
+                drop_file_container.classList.remove('hideTab')
+                drop_url_value.value=''
+                getFiles()
+                break
+            default:
+                drop_url_value='';
+                drop_file_value='';
+        }
+    });
+}
 
 document.querySelector("#drop-btn").addEventListener('click', function(event) {
 
@@ -410,20 +531,35 @@ document.querySelector("#drop-btn").addEventListener('click', function(event) {
     let drop_locations=getDropLocations('.place-drop-location-list')
 
     let field_values={
-    'title'         :   clean_ipfield(  document.querySelector('#id_drop_title').value )      ,
-    'category'      :   document.querySelector('#id_drop_category').value    ,
+    'title'         :   clean_ipfield(  document.querySelector('#id_drop_title').value )       ,
+    'category'      :   document.querySelector('#id_drop_category').value                      ,
     'description'   :   clean_ipfield(  document.querySelector('#id_drop_description').value ) ,
     }
+
+    let url        =   document.querySelector('#id_drop_url').value                            
+    let file       =   document.querySelector('#id_drop_file').value  
 
     Object.keys(field_values).forEach((key)=>{
         //console.log(field_values[key])
         if(field_values[key]==undefined || field_values[key]=='')
         {
-            message=message+`<p>The field drop ${key} is required</p>`
+            message=message+`<p>The field drop ${key} is required<p>`
             valid_fields=false;
         }
     })
-    
+
+    if(field_values['category']==4)
+    {
+        message=message+`<p>The field drop url is required<p>`
+        valid_fields=false;
+    }
+
+    if(field_values['category']==5)
+    {
+        message=message+`<p>The field drop file is required<p>`
+        valid_fields=false;
+    }
+
     let asset_id=document.querySelector('#id_drop_assets').dataset.assetId
 
     if(asset_id=='')
@@ -446,7 +582,8 @@ document.querySelector("#drop-btn").addEventListener('click', function(event) {
         'drop_title'       : field_values['title'],
         'drop_category'    : field_values['category'],
         'drop_description' : field_values['description'],
-        'drop_url'	       : field_values['url'],
+        'drop_url'	       : url,
+        'drop_file'        : file,
         'drop_asset_id'    : asset_id,
         'drop_locations'   : JSON.stringify(drop_locations)                          
         }
@@ -465,6 +602,8 @@ document.querySelector("#drop-btn").addEventListener('click', function(event) {
 
                 showAlert('<p>Your drop is discoverable at the target location’</p>')
                 console.log(" Form data submitted ",drop_id);
+
+                reset_markers();
             },
         // on error
         error: function (response) {
@@ -492,6 +631,12 @@ function show_asset_lib(browse_btn_id)
     } )
 }
 
+function reset_markers()
+{
+    Array.from(document.getElementsByClassName('leaflet-pane leaflet-tooltip-pane')[0].childNodes).forEach(marker=>marker.remove())
+    Array.from(document.getElementsByClassName('leaflet-pane leaflet-marker-pane')[0].childNodes).forEach(marker=>marker.remove())
+}
+
 function reset_tab_coord(tab)
 {
     Array.from(document.querySelector(tab).getElementsByTagName('input')).forEach( 
@@ -504,6 +649,12 @@ function reset_tab_coord(tab)
            element.value = '';
         }
     );
+
+    //reset_markers();
+
+    if(!('hideTab' in document.querySelector('.dropUrl' ).classList))         document.getElementsByName('.dropUrl' ).classList.add('hideTab')
+    if(!('hideTab' in document.querySelector('.dropFile').classList))         document.getElementsByName('.dropFile').classList.add('hideTab')
+    
     // hide trending locations 
     let trending_loc_container=document.querySelector(tab).parentElement.querySelector('.trending-loc-list')
     if(trending_loc_container.style.display=='none')
@@ -521,6 +672,7 @@ function showTab(tab)
         $('#pills-place-drop').children().hide();          
         $('#drop-details-tab-1').show(); 
         reset_tab_coord('#pills-place-drop')
+        updateUserInputType('id_drop_category');
     }
     else
     {
@@ -546,16 +698,6 @@ function showEditTab(tab)
 document.querySelector("#place-drop-btn").addEventListener('click',function(){showEditTab('place')} )
 document.querySelector("#edit-drop-btn" ).addEventListener('click',function(){showEditTab('edit') } )
 
-let options = {
-    bounds: false, 
-    markers: false,         //To not add markers when we geocoder
-    attribution: null,      //No need of attribution since we are not using maps
-    expanded: true,         //The geocoder search box will be initialized in expanded mode
-    panToPoint: false,       //Since no maps, no need to pan the map to the geocoded-selected location
-    focus:false
-  }
-
-let place_drop_location={display_location:'true',location_id:'.place-drop-location-list'}
 // Create a function to check if geocodercontainer is already appended to searchbox 
 function checkIfEmpty(element) {
     element=document.querySelector(element)
@@ -572,10 +714,20 @@ function clean_ipfield(value)
     return clean_field
 }
 
-let place_drop_location_container={'user_coordinates_container':{'search_box_id':'#get-drop-coord','search_btn':'#user-drop-coord'},'search_coordinates_container_id':'#drop-loc-search-box','place_drop_coordinates':['#get-drop-coord-marker','#confirm-drop-coord'],'location_list_id':'.place-drop-location-list'}
+let options = {
+    bounds: false, 
+    markers: false,         //To not add markers when we geocoder
+    attribution: null,      //No need of attribution since we are not using maps
+    expanded: true,         //The geocoder search box will be initialized in expanded mode
+    panToPoint: false,       //Since no maps, no need to pan the map to the geocoded-selected location
+    focus:false
+}
 
-document.querySelector('#tab-3-control-b-btn').addEventListener('click',function() {    $('#pills-place-drop').children().hide(); $('#drop-details-tab-2').show();  if( checkIfEmpty('#drop-loc-search-box')) { createSearch('#drop-loc-search-box',options,'get-drop-coord-locname',place_drop_location); get_trending_locations(place_drop_location_container['location_list_id'],'#get-drop-coord-trending'); get_drop_location(place_drop_location_container);}  }   )
-document.querySelector('#tab-1-control-f-btn').addEventListener('click',function() {    $('#pills-place-drop').children().hide(); $('#drop-details-tab-2').show();  if( checkIfEmpty('#drop-loc-search-box')) { createSearch('#drop-loc-search-box',options,'get-drop-coord-locname',place_drop_location); get_trending_locations(place_drop_location_container['location_list_id'],'#get-drop-coord-trending'); get_drop_location(place_drop_location_container);}  }   )
+let place_drop_location_container={'user_coordinates_container':{'search_box_id':'#get-drop-coord','search_btn':'#user-drop-coord'},'search_coordinates_container_id':{'search_box_id':'#drop-loc-search-box','search_results':'get-drop-coord-locname'},'place_drop_coordinates':['#get-drop-coord-marker','#confirm-drop-coord'],'location_list_id':'.place-drop-location-list','geocoderControl':'place_drop_geocoderControl'}
+
+document.querySelector('#tab-3-control-b-btn').addEventListener('click',function() {    $('#pills-place-drop').children().hide(); $('#drop-details-tab-2').show();  if( checkIfEmpty('#drop-loc-search-box')) { place_drop_geocoderControl=createSearch(location_container['search_coordinates_container_id']['search_box_id'],options,location_container['search_coordinates_container_id']['search_results']); get_trending_locations(place_drop_location_container['location_list_id'],'#get-drop-coord-trending'); }    get_drop_location(place_drop_location_container);  }   )
+document.querySelector('#tab-1-control-f-btn').addEventListener('click',function() {    $('#pills-place-drop').children().hide(); $('#drop-details-tab-2').show();  if( checkIfEmpty('#drop-loc-search-box')) { place_drop_geocoderControl=createSearch(location_container['search_coordinates_container_id']['search_box_id'],options,location_container['search_coordinates_container_id']['search_results']); get_trending_locations(place_drop_location_container['location_list_id'],'#get-drop-coord-trending'); }    get_drop_location(place_drop_location_container);  }   )
+
 document.querySelector('#tab-2-control-f-btn').addEventListener('click',function() {    $('#pills-place-drop').children().hide(); $('#drop-details-tab-3').show();   show_asset_lib("#id_drop_assets")  }   )
 document.querySelector('#tab-2-control-b-btn').addEventListener('click',function() {    $('#pills-place-drop').children().hide(); $('#drop-details-tab-1').show();   }   )
 

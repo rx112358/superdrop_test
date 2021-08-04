@@ -22,18 +22,20 @@ if(container != null)
 }
 
 //Displays the geocoding response in the "result" div
-function set_lat_lng(display_name, lat, lng,result_id,add_location) {
+function set_lat_lng(display_name, lat, lng,result_id) {
 
   let resultString = {'locationName':display_name ,'lat': lat,'lon': lng};
   document.querySelector(`#${result_id}`).value = resultString;
   document.querySelector(`#${result_id}`).style.visibility="hidden";
 
+  /*
   if(result_id=='user-loc-result')
   { showDrops();  } 
   if(add_location.display_location=='true')
   {
     get_geocode_locations(add_location.location_id,lat,lng)
   }
+  */
 
 }
 
@@ -101,7 +103,7 @@ function create_draggable_marker(lat=undefined,lon=undefined)
   return marker;
 }
 
-function createSearch(search_box_id,options,result_id,add_location={display_location:'false',location_id:undefined})
+function createSearch(search_box_id,options,result_id)
 {
   //Get the "search-box" div
   let searchBoxControl = document.querySelector(search_box_id);
@@ -109,14 +111,16 @@ function createSearch(search_box_id,options,result_id,add_location={display_loca
   //Initialize the geocoder
   let geocoderControl = L.control.geocoder(key,options).addTo(map).on('select', 
     function (e) {
-      set_lat_lng(e.feature.feature.display_name, e.latlng.lat, e.latlng.lng,result_id,add_location);
+      set_lat_lng(e.feature.feature.display_name, e.latlng.lat, e.latlng.lng,result_id);
     });
 
   let geocoderContainer = geocoderControl.getContainer();
 
   //Get the geocoder container from the leaflet map
   //Append the geocoder container to the "search-box" div
-  searchBoxControl.appendChild(geocoderContainer);        
+  searchBoxControl.appendChild(geocoderContainer);
+  
+  return geocoderControl;
 
 }
 

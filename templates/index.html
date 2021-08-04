@@ -275,14 +275,19 @@
 
                     <div class="drop-tab hideTab" id="drop-details-tab-3" >
 
-                        <div class="fieldWrapper">
+                        <div class="fieldWrapper dropUrl hideTab">
                                                 
-                        <p><label for="id_drop_url"> Paste your link here </label> </p>
-                        <p><input class="w-100 p-2" type="url" name="drop_url" maxlength="200" id="id_drop_url"></p>
+                          <p><label for="id_drop_url"> Paste your link here </label> </p>
+                          <p><input class="w-100 p-2" type="url" name="drop_url" maxlength="200" id="id_drop_url"></p>
+                        </div>
 
-                        <p><label for="id_drop_file"> Paste your link here </label> </p>
-                        <p><input class="w-100 p-2" type="file" name="drop_file" id="id_drop_file"></p>
-                        
+                        <div class="fieldWrapper dropFile hideTab">
+                          <p><label for="id_drop_file"> Choose image to upload </label> </p>
+                          <p><input class="w-100 p-2" type="file" name="drop_file" id="id_drop_file"> </p>
+                          <div class="preview" style="width:18rem; height:18rem;">
+                            <p>No files currently selected for upload</p>
+                          </div>
+              
                         </div>
                         
                         <div class="fieldWrapper w-100">

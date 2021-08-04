@@ -152,12 +152,20 @@
 
 <div  id="drop-edit-details-tab-3" class="hideTab">
 
-    <div class="fieldWrapper">
-                            
-    <p><label for="edit_drop_url"> Paste your link here </label> </p>
-    <p><input class="w-100 p-2" type="url" name="drop_url" maxlength="200" id="edit_drop_url" value="{{ drop.drop_url }}"></p>
-    
-    </div>
+    <div class="fieldWrapper dropUrl hideTab">
+                                                
+        <p><label for="edit_drop_url"> Paste your link here </label> </p>
+        <p><input class="w-100 p-2" type="url" name="drop_url" maxlength="200" id="edit_drop_url"></p>
+      </div>
+
+      <div class="fieldWrapper dropFile hideTab">
+        <p><label for="edit_drop_file"> Choose image to upload </label> </p>
+        <p><input class="w-100 p-2" type="file" name="drop_file" id="edit_drop_file"> </p>
+        <div class="preview" style="width:18rem; height:18rem;">
+          <p>No files currently selected for upload</p>
+        </div>
+
+      </div>
     
     <div class="fieldWrapper">
     

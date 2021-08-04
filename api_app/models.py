@@ -6,7 +6,7 @@ class DropLocation(models.Model):
 
     drop_long   =models.FloatField()
     drop_lat    =models.FloatField()
-    drop_locname=models.CharField(max_length=200,default=" ")
+    drop_locname=models.CharField(default=" ")
         
 class Drop(models.Model):
 
