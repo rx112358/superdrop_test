@@ -507,7 +507,7 @@ function updateUserInputType(category_id)
                 break
             case '5':
                 drop_file_container.classList.remove('hideTab')
-                drop_url_value.value=''
+                drop_url_value=''
                 getFiles()
                 break
             default:
