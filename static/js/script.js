@@ -1,8 +1,8 @@
 import { create_marker,createSearch, create_draggable_marker} from './drop_map.js';
 import { getVenueData,getCoordinates,getUserCoordinates} from './getSearchResults.js';
 
-const place_drop_geocoderControl='';
-const edit_drop_geocoderControl='';
+let place_drop_geocoderControl='';
+let edit_drop_geocoderControl='';
 
 function showAlert(message){
     var alert_container = document.getElementById("alert-message");
