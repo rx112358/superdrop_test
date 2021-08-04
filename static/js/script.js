@@ -1,9 +1,6 @@
 import { create_marker,createSearch, create_draggable_marker} from './drop_map.js';
 import { getVenueData,getCoordinates,getUserCoordinates} from './getSearchResults.js';
 
-//var asset_id_list=[]
-let marker_coord=[]
-
 function showAlert(message){
     var alert_container = document.getElementById("alert-message");
     alert_container.innerHTML = message;
@@ -20,6 +17,9 @@ function removeLocation(parent)
 
 function addLocation(location_id,drop_locname,drop_lat,drop_lon)
 {
+    // add marker to map
+    create_draggable_marker(drop_lat,drop_lon)
+
     let new_location_html=`<p><span class="drop-locname-list" data-drop-lat='${drop_lat}' data-drop-lon='${drop_lon}'>${drop_locname}</span><button type="button" class="drop-location-remove-btn btn btn-sm" style="float:right; color:none">x</button></p>`       
     document.querySelector(location_id).innerHTML+=new_location_html    
     document.querySelectorAll('.drop-location-remove-btn').forEach(el => el.addEventListener('click',function(){ 
@@ -69,7 +69,6 @@ function removeDropLocation(location_id)
 function reverse_geocode(lat,lon)
 {
     let reverse_geocoding_url=`https://us1.locationiq.com/v1/reverse.php?key=pk.a786af1c5686dfc7212755d279ba275b&lat=${lat}&lon=${lon}&format=json`
-    // getting locations within 2000m max_lon,max_lat,min_lon,min_lat
     return fetch(reverse_geocoding_url)
     .then(response => response.json())
     .then(data =>
@@ -110,6 +109,7 @@ function get_geocode_locations(location_list_id,lat,lon)
 
 function get_drop_location(location_container)
 {
+    let marker='',marker_coord=[undefined,undefined];
     // get drop location from coordinates
     document.querySelector(location_container['user_coordinates_container']['search_btn']).addEventListener('click',function()
         {
@@ -119,7 +119,9 @@ function get_drop_location(location_container)
                 let coord=getCoordinates(search_input)
                 if(coord!=undefined)
                 {
-                    get_geocode_locations(location_container['location_list_id'],coord[0],coord[1]);
+                    marker_coord[0]=coord[0]
+                    marker_coord[1]=coord[1]
+                    //get_geocode_locations(location_container['location_list_id'],coord[0],coord[1]);
                 }
             }
 
@@ -129,7 +131,6 @@ function get_drop_location(location_container)
     // placing marker on map and getting coordinates of marker
     let place_drop_btn=document.querySelector(location_container['place_drop_coordinates'][0])
     let confirm_drop_btn=document.querySelector(location_container['place_drop_coordinates'][1]);
-    let marker='';
         
     place_drop_btn.addEventListener('click',()=>{
         marker=create_draggable_marker();
@@ -140,15 +141,14 @@ function get_drop_location(location_container)
             marker_coord[0]=position.lat
             marker_coord[1]=position.lng
         });
-        place_drop_btn.style.display='none';
-        confirm_drop_btn.style.display='block';
+        //place_drop_btn.style.display='none';
     })
+
+
     confirm_drop_btn.addEventListener('click',function(){
-        confirm_drop_btn.style.display='none';
         //marker.remove();
-        place_drop_btn.style.display='block';
         if(marker_coord[0] !=undefined || marker_coord[1]!=undefined )
-        get_geocode_locations(location_container['location_list_id'],marker_coord[0],marker_coord[1])
+        get_geocode_locations(marker,location_container['location_list_id'],marker_coord[0],marker_coord[1])
     })
 
 
@@ -236,7 +236,6 @@ function updateDrop(drop_id)
     let field_values={
     'title'         :   clean_ipfield(document.querySelector('#edit_drop_title').value)       ,
     'category'      :   document.querySelector('#edit_drop_category').value    ,
-    'type'          :   document.querySelector('#edit_drop_type').value        ,
     'description'   :   clean_ipfield(document.querySelector('#edit_drop_description').value) ,
     }
 
@@ -270,7 +269,6 @@ function updateDrop(drop_id)
         'drop_id'          : drop_id,
         'drop_title'       : field_values['title'],
         'drop_category'    : field_values['category'],
-        'drop_type'        : field_values['type'],
         'drop_description' : field_values['description'],
         'drop_url'	       : field_values['url'],
         'drop_asset_id'    : asset_id,
@@ -414,7 +412,6 @@ document.querySelector("#drop-btn").addEventListener('click', function(event) {
     let field_values={
     'title'         :   clean_ipfield(  document.querySelector('#id_drop_title').value )      ,
     'category'      :   document.querySelector('#id_drop_category').value    ,
-    'type'          :   document.querySelector('#id_drop_type').value        ,
     'description'   :   clean_ipfield(  document.querySelector('#id_drop_description').value ) ,
     }
 
@@ -448,7 +445,6 @@ document.querySelector("#drop-btn").addEventListener('click', function(event) {
         data={
         'drop_title'       : field_values['title'],
         'drop_category'    : field_values['category'],
-        'drop_type'        : field_values['type'],
         'drop_description' : field_values['description'],
         'drop_url'	       : field_values['url'],
         'drop_asset_id'    : asset_id,

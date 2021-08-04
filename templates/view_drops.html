@@ -9,7 +9,11 @@
             {% endwith %}
             <div class="card-body">
                 <h5 class="card-title">{{ drop.drop_title}}</h5>
-                <p class="card-text">{{ drop.drop_description}}</p>
+                <p class="card-text">
+                    <span class="d-inline-block text-truncate" style="max-width:12rem;">
+                        <small>{{ drop.drop_description}}</small>
+                    </span>
+                </p>
             </div>
             <div class="card-body d-flex gap-5 flex-row">
                 <button data-drop-id="{{ drop.id }}" class="w-50 btn btn-block edit-drop-btn"> Edit  </button>

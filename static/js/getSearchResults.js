@@ -288,10 +288,4 @@ function showDrops()
 
 }
 
-// Create a function to add a marker to leaflet map
-function addMarker(lat,lon) {
-    var marker = L.marker(new L.LatLng(lat, lon));
-    map.addLayer(marker);
-  }
-
 export {showDrops,getVenueData,getCoordinates,getLocationDrops,getUserCoordinates};

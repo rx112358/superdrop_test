@@ -15,13 +15,17 @@ class Drop(models.Model):
     cat_Video     ='2'
     cat_Nft       ='3'
     cat_Image     ='4'
-    cat_Links     ='5'      
+    cat_Links     ='5'    
+
+    '''  
 
     type_Website   ='WEB'
     type_Youtube   ='YT'
     type_Image     ='IMG'
     type_Animation ='ANI'
     type_Audio     ='AUD'
+
+    '''
 
     category_choices = [
         
@@ -33,6 +37,7 @@ class Drop(models.Model):
         ( cat_Links     , 'Links'       ),
     ]
 
+    '''
     type_choices=[
     ( type_Website    , 'Website'      ),
     ( type_Youtube    , 'Youtube Video'),
@@ -40,6 +45,7 @@ class Drop(models.Model):
     ( type_Animation  , 'Animation'   ),
     ( type_Audio      , 'Audio'           )
     ]
+    '''
 
     user=models.ForeignKey(DropUser, on_delete=models.CASCADE,null=True)
 
@@ -52,16 +58,20 @@ class Drop(models.Model):
         default=cat_Animation,
     )
 
+    '''
     # type choices
     drop_type=models.CharField(" Type of drop ",
         max_length=30,
         choices=type_choices,
         default=type_Website,
     )
+    '''
 
     drop_description=models.TextField(" Add Description ")
 
     drop_url=models.URLField(" Paste your link here ",null=True,blank=True)
+
+    drop_file=models.FileField(upload_to='media',null=True,blank=True)
 
     drop_asset=models.CharField(" Choose your asset ",max_length=200,default='asset_1')
 

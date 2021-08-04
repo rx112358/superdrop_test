@@ -29,6 +29,8 @@
                 </p>
                 
         </div>
+
+        <!--
                 
         <div class="fieldWrapper">
                 
@@ -44,6 +46,8 @@
                     </select>
                 </p> 
         </div>
+
+        -->
                 
         <div class="fieldWrapper">
                 
@@ -121,9 +125,11 @@
     
     <p><label for="edit-drop-coord-marker"> Place drop manually </label> </p>
     <div>
-        <button type="button" id='edit-drop-coord-marker' class="w-100 btn btn-block">Place drop</button> 
-        <button type="button" id="confirm-edit-drop"    class="w-100 btn btn-block" style="display:none">Confirm drop</button>    
+        <button type="button" id='edit-drop-coord-marker' class="w-100 btn btn-block">Drop pin</button> 
+        <!-- <button type="button" id="confirm-edit-drop"    class="w-100 btn btn-block" style="display:none">Confirm pin</button>    -->
     </div>
+
+    <button type="button" id="confirm-edit-drop"    class="w-100 btn btn-block" style="display:none"><small>Confirm location</small></button>
         
     </div>
 
@@ -155,7 +161,7 @@
     
     <div class="fieldWrapper">
     
-    <p><label for="edit_drop_assets"> Choose your assets </label> </p>
+    <p><label for="edit_drop_assets"> Library </label> </p>
     <div class="border border-secondary mx-5"><center><button role="button" data-asset-id={{ drop.drop_asset }} id="edit_drop_assets" class="btn" style="margin:25% 25% 25% 25%;">Browse</button></center></div>
     
     </div>

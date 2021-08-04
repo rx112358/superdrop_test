@@ -60,7 +60,6 @@ def create_drop(request):
 
         title          = request.POST.get('drop_title')
         category       = request.POST.get('drop_category')
-        type           = request.POST.get('drop_type')
         url            = request.POST.get('drop_url')
         asset_id       = request.POST.get('drop_asset_id')
         description    = request.POST.get('drop_description')
@@ -73,7 +72,6 @@ def create_drop(request):
         drop=Drop(user=user,
         drop_title = title,
         drop_category   = category    ,
-        drop_type       = type        ,
         drop_url        = url         ,
         drop_asset=asset_id        ,
         drop_description= description )
@@ -124,7 +122,6 @@ def update_drop(request):
         drop_id        = request.POST.get('drop_id')
         title          = request.POST.get('drop_title')
         category       = request.POST.get('drop_category')
-        type           = request.POST.get('drop_type')
         url            = request.POST.get('drop_url')
         asset_id       = request.POST.get('drop_asset_id')
         description    = request.POST.get('drop_description')
@@ -133,8 +130,7 @@ def update_drop(request):
         try:
             drop=Drop.objects.get(pk=drop_id)
             drop.drop_title = title
-            drop.drop_category   = category    
-            drop.drop_type       = type        
+            drop.drop_category   = category           
             drop.drop_url        = url         
             drop.drop_asset=asset_id        
             drop.drop_description= description 

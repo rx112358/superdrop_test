@@ -24,7 +24,6 @@ if(container != null)
 //Displays the geocoding response in the "result" div
 function set_lat_lng(display_name, lat, lng,result_id,add_location) {
 
-  //let resultId=getResultId();
   let resultString = {'locationName':display_name ,'lat': lat,'lon': lng};
   document.querySelector(`#${result_id}`).value = resultString;
   document.querySelector(`#${result_id}`).style.visibility="hidden";
@@ -73,9 +72,15 @@ function create_marker(lat,lng)
 
 }
 
-function create_draggable_marker()
+function create_draggable_marker(lat=undefined,lon=undefined)
 {
-  let position=map.getCenter();
+  let position='';
+
+  if(lat!=undefined && lon!=undefined)
+    position=L.latLng([lat,lon])
+  else
+    position=map.getCenter();
+  
   let drop_icon=create_icon();
   // Add a 'marker'
   var marker = L.marker( position, {draggable: true,icon:drop_icon} )

@@ -161,7 +161,7 @@
                                     </p>
                                     
                             </div>
-                                    
+                            <!--
                             <div class="fieldWrapper">
                                     
                                     <p><label for="id_drop_type"> Type of drop </label> </p>
@@ -179,6 +179,8 @@
                                         </select>
                                     </p> 
                             </div>
+                          -->
+
                                     
                             <div class="fieldWrapper">
                                     
@@ -253,11 +255,13 @@
                         
                         <p><label for="get-drop-coord-marker"> Place drop manually </label> </p>
                         <div>
-                            <button type="button" id="get-drop-coord-marker" class="w-100 btn btn-block">Place drop</button> 
-                            <button type="button" id="confirm-drop-coord"    class="w-100 btn btn-block" style="display:none">Confirm drop</button>    
+                            <button type="button" id="get-drop-coord-marker" class="w-100 btn btn-block">Pin drop</button> 
+                            <!-- <button type="button" id="confirm-drop-coord"    class="w-100 btn btn-block" style="display:none">Confirm pin</button>    --> 
                         </div>
                             
                         </div>
+
+                        <button type="button" id="confirm-drop-coord"    class="w-100 btn btn-block" style="display:none"><small>Confirm location</small></button>
 
                         <div class="fieldWrapper place-drop-location-list" style="max-height: 200px; overflow-y: scroll;">
                         </div>
@@ -275,12 +279,15 @@
                                                 
                         <p><label for="id_drop_url"> Paste your link here </label> </p>
                         <p><input class="w-100 p-2" type="url" name="drop_url" maxlength="200" id="id_drop_url"></p>
+
+                        <p><label for="id_drop_file"> Paste your link here </label> </p>
+                        <p><input class="w-100 p-2" type="file" name="drop_file" id="id_drop_file"></p>
                         
                         </div>
                         
                         <div class="fieldWrapper w-100">
                         
-                        <p><label for="id_drop_assets"> Choose your assets </label> </p>
+                        <p><label for="id_drop_assets"> Library </label> </p>
                         <div  class="border border-secondary mx-5">
                             <center><button role="button" data-asset-id='' id="id_drop_assets" class="btn" style="margin:25% 25% 25% 25%;">Browse</button></center>
                         </div>
