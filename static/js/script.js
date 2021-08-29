@@ -107,11 +107,27 @@ function get_geocode_locations(location_list_id,lat,lon)
 
 }
 
+function confirm_drop_location(location_container,marker)
+{
+    let confirm_drop_btn=document.querySelector(location_container['place_drop_coordinates'][1]),marker_coord=[undefined,undefined];
+    confirm_drop_btn.addEventListener('click',function(){
+        //marker.remove();
+            if(marker !=undefined)
+            {
+                let position = marker.getLatLng();
+                marker_coord[0]=position.lat
+                marker_coord[1]=position.lng
+                get_geocode_locations(location_container['location_list_id'],marker_coord[0],marker_coord[1])
+            }
+    })
+
+}
+
 
 function get_drop_location(location_container)
 {
 
-    let marker='',marker_coord=[undefined,undefined];
+    let marker=undefined,marker_coord=[undefined,undefined];
     // get drop location from coordinates
     document.querySelector(location_container['user_coordinates_container']['search_btn']).addEventListener('click',function()
         {
@@ -125,36 +141,25 @@ function get_drop_location(location_container)
                     marker_coord[1]=coord[1]
                         // add marker to map
                     marker=create_draggable_marker(marker_coord[0],marker_coord[1])
+                    confirm_drop_location(location_container,marker);
                     //get_geocode_locations(location_container['location_list_id'],coord[0],coord[1]);
                 }
             }
 
         })
     // get drop location from auto complete search box
+    marker=location_container['geocoderControl']
+    console.log(location_container['geocoderControl'])
+    confirm_drop_location(location_container,marker);
+
     // placing marker on map and getting coordinates of marker
     let place_drop_btn=document.querySelector(location_container['place_drop_coordinates'][0])
-    let confirm_drop_btn=document.querySelector(location_container['place_drop_coordinates'][1]);
-        
+
     place_drop_btn.addEventListener('click',()=>{
         marker=create_draggable_marker();
+        confirm_drop_location(location_container,marker);
 
     })
-
-
-    confirm_drop_btn.addEventListener('click',function(){
-        //marker.remove();
-        if(marker_coord[0] !=undefined || marker_coord[1]!=undefined )
-        {
-            if(marker !=undefined)
-            {
-                let position = marker.getLatLng();
-                marker_coord[0]=position.lat
-                marker_coord[1]=position.lng
-                get_geocode_locations(location_container['location_list_id'],marker_coord[0],marker_coord[1])
-            }
-        }
-    })
-
 
 }
 function editDrop(drop_id)
@@ -169,7 +174,7 @@ function editDrop(drop_id)
         document.querySelector('.drop-edit-details-tab').innerHTML=doc.innerHTML;
         updateUserInputType('edit_drop_category');
 
-        let location_container={'user_coordinates_container':{'search_box_id':'#edit-drop-coord','search_btn':'#edit-drop-coord-btn'},'search_coordinates_container_id':{'search_box_id':'#update-drop-loc-search-box','search_results':'update-drop-coord-locname'},'place_drop_coordinates':['#edit-drop-coord-marker','#confirm-edit-drop'],'location_list_id':'.edit-drop-location-list','geocoderControl':'edit_drop_geocoderControl'}
+        let location_container={'user_coordinates_container':{'search_box_id':'#edit-drop-coord','search_btn':'#edit-drop-coord-btn'},'search_coordinates_container_id':{'search_box_id':'#update-drop-loc-search-box','search_results':'update-drop-coord-locname'},'place_drop_coordinates':['#edit-drop-coord-marker','#confirm-edit-drop'],'location_list_id':'.edit-drop-location-list','geocoderControl':''}
 
         // change update drop tabs
         document.querySelector('#edit-tab-3-control-b-btn').addEventListener('click',function() {    $('.drop-edit-details-tab').children().hide(); $('#drop-edit-details-tab-2').show();  if( checkIfEmpty('#update-drop-loc-search-box')) { createSearch(location_container['search_coordinates_container_id']['search_box_id'],options,location_container['search_coordinates_container_id']['search_results']); get_drop_location(place_drop_location_container); }  //get_trending_locations(location_container['location_list_id'],'#edit-drop-coord-trending')  
@@ -257,13 +262,13 @@ function updateDrop(drop_id)
         }
     })
 
-    if(field_values['category']==4)
+    if(field_values['category']==5 && (url==undefined || url==''))
     {
         message=message+`<p>The field drop url is required<p>`
         valid_fields=false;
     }
 
-    if(field_values['category']==5)
+    if(field_values['category']==4 && (file==undefined || file==''))
     {
         message=message+`<p>The field drop file is required<p>`
         valid_fields=false;
@@ -271,11 +276,12 @@ function updateDrop(drop_id)
 
     let asset_id=document.querySelector('#edit_drop_assets').dataset.assetId
 
-    if(asset_id=='')
+    if(asset_id=='' && field_values['category']!=4)
     {
         message=message+`<p>The field drop assets is required<p>`
             valid_fields=false
     }
+    
     if( drop_location_container.childElementCount==0  ) 
     {
         message=message+`<p>The field drop locations is required<p>`
@@ -399,7 +405,7 @@ function get_trending_locations(location_id,container_id)
                 let drop_lon=data[index]['drop_long']
                 let drop_locname=data[index]['drop_locname']
 
-                if(drop_locname!=undefined)
+                if(drop_locname!=undefined && drop_lat!=undefined && drop_lon!=undefined)
                 {   el.innerHTML=       drop_locname
                     el.dataset.dropLat= drop_lat
                     el.dataset.dropLon= drop_lon       
@@ -435,7 +441,7 @@ function validFileType(file) {
     return imageFileTypes.includes(file.type);
 }
 
-function updateFileDisplay() {
+function updateFileDisplay(input) {
 
     const preview = document.querySelector('.preview');
     while(preview.firstChild) {
@@ -455,8 +461,10 @@ function updateFileDisplay() {
         const listItem = document.createElement('li');
         const para = document.createElement('p');
         if(validFileType(file)) {
-          para.textContent = `File name ${file.name}, file size ${returnFileSize(file.size)}.`;
+          para.textContent = `File name ${file.name}, file size ${file.size}.`;
           const image = document.createElement('img');
+          image.style.maxHeight="18rem";
+          image.style.maxWidth ="18rem";
           image.src = URL.createObjectURL(file);
   
           listItem.appendChild(image);
@@ -473,11 +481,9 @@ function updateFileDisplay() {
 
 function getFiles()
 {
-    const input = document.getElementsByName('file')[-1];
+    const input = document.getElementsByName('drop_file')[0];
 
-    //input.style.opacity = 0;
-
-    input.addEventListener('change', updateFileDisplay);
+    input.addEventListener('change', ()=>  {    updateFileDisplay(input)} );
 
 }
 
@@ -495,17 +501,27 @@ function updateUserInputType(category_id)
         switch(event.target.value)
         {
             case '4':
-                drop_file_container.classList.remove('hideTab')
-                drop_url_value=''
+                drop_file_container.classList.remove('hideTab');
+                if(!('hideTab' in drop_url_container.classList))
+                    drop_url_container.classList.add('hideTab');
+
+                drop_url_value='';
+                getFiles();
+
                 break
             case '5':
-                drop_url_container.classList.remove('hideTab')
-                drop_file_value=''
-                getFiles()
+                drop_url_container.classList.remove('hideTab');
+                if(!('hideTab' in drop_file_container.classList))
+                    drop_file_container.classList.add('hideTab');
+                drop_file_value='';
                 break
             default:
                 drop_url_value='';
                 drop_file_value='';
+                if(!('hideTab' in drop_url_container.classList))
+                    drop_url_container.classList.add('hideTab')
+                if(!('hideTab' in drop_file_container.classList))
+                    drop_file_container.classList.add('hideTab')
         }
     });
 }
@@ -541,13 +557,13 @@ document.querySelector("#drop-btn").addEventListener('click', function(event) {
         }
     })
 
-    if(field_values['category']==4)
+    if(field_values['category']==5 && (url==undefined || url==''))
     {
         message=message+`<p>The field drop url is required<p>`
         valid_fields=false;
     }
 
-    if(field_values['category']==5)
+    if(field_values['category']==4 && (file==undefined || file==''))
     {
         message=message+`<p>The field drop file is required<p>`
         valid_fields=false;
@@ -555,7 +571,7 @@ document.querySelector("#drop-btn").addEventListener('click', function(event) {
 
     let asset_id=document.querySelector('#id_drop_assets').dataset.assetId
 
-    if(asset_id=='')
+    if(asset_id=='' && field_values['category']!=4)
     {
         message=message+`<p>The field drop assets is required<p>`
             valid_fields=false
@@ -659,8 +675,16 @@ function reset_tab_coord(tab)
 
 function showTab(tab)
 {
+    let place_tab_btn=document.querySelector('#pills-place-drop-tab');
+    let edit_tab_btn=document.querySelector('#pills-edit-drop-tab');
+    place_tab_btn.style.color="grey";
+    edit_tab_btn.style.color="grey";
+
     if( tab == 'place')
     {
+        let tab_btn=document.querySelector('#pills-place-drop-tab');
+        tab_btn.style.color="red"; 
+        tab_btn.style.fontSize="16px";
         $('#pills-edit-drop').children().hide();    
         $('#pills-place-drop').children().hide();          
         $('#drop-details-tab-1').show(); 
@@ -669,6 +693,9 @@ function showTab(tab)
     }
     else
     {
+        let tab_btn=document.querySelector('#pills-edit-drop-tab');
+        tab_btn.style.color="red";
+        tab_btn.style.fontSize="16px";
         $('#pills-place-drop').children().hide();  
         $('#pills-edit-drop').children().hide();           
         $('.update-drop-list').show();                
@@ -716,7 +743,7 @@ let options = {
     focus:false
 }
 
-let place_drop_location_container={'user_coordinates_container':{'search_box_id':'#get-drop-coord','search_btn':'#user-drop-coord'},'search_coordinates_container_id':{'search_box_id':'#drop-loc-search-box','search_results':'get-drop-coord-locname'},'place_drop_coordinates':['#get-drop-coord-marker','#confirm-drop-coord'],'location_list_id':'.place-drop-location-list','geocoderControl':'place_drop_geocoderControl'}
+let place_drop_location_container={'user_coordinates_container':{'search_box_id':'#get-drop-coord','search_btn':'#user-drop-coord'},'search_coordinates_container_id':{'search_box_id':'#drop-loc-search-box','search_results':'get-drop-coord-locname'},'place_drop_coordinates':['#get-drop-coord-marker','#confirm-drop-coord'],'location_list_id':'.place-drop-location-list','geocoderControl':''}
 
 document.querySelector('#tab-3-control-b-btn').addEventListener('click',function() {    $('#pills-place-drop').children().hide(); $('#drop-details-tab-2').show();  if( checkIfEmpty('#drop-loc-search-box')) { createSearch(place_drop_location_container['search_coordinates_container_id']['search_box_id'],options,place_drop_location_container['search_coordinates_container_id']['search_results']); get_trending_locations(place_drop_location_container['location_list_id'],'#get-drop-coord-trending'); }    get_drop_location(place_drop_location_container);  }   )
 document.querySelector('#tab-1-control-f-btn').addEventListener('click',function() {    $('#pills-place-drop').children().hide(); $('#drop-details-tab-2').show();  if( checkIfEmpty('#drop-loc-search-box')) { createSearch(place_drop_location_container['search_coordinates_container_id']['search_box_id'],options,place_drop_location_container['search_coordinates_container_id']['search_results']); get_trending_locations(place_drop_location_container['location_list_id'],'#get-drop-coord-trending'); }    get_drop_location(place_drop_location_container);  }   )

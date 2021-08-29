@@ -27,7 +27,6 @@ function set_lat_lng(display_name, lat, lng,result_id) {
   let resultString = {'locationName':display_name ,'lat': lat,'lon': lng};
   document.querySelector(`#${result_id}`).value = resultString;
   document.querySelector(`#${result_id}`).style.visibility="hidden";
-
   /*
   if(result_id=='user-loc-result')
   { showDrops();  } 
@@ -36,7 +35,6 @@ function set_lat_lng(display_name, lat, lng,result_id) {
     get_geocode_locations(add_location.location_id,lat,lng)
   }
   */
-
 }
 
 function create_icon()
@@ -82,6 +80,9 @@ function create_draggable_marker(lat=undefined,lon=undefined)
     position=L.latLng([lat,lon])
   else
     position=map.getCenter();
+
+  // panning the map to the point lat,lng
+  map.setView(position);
   
   let drop_icon=create_icon();
   // Add a 'marker'
@@ -107,11 +108,19 @@ function createSearch(search_box_id,options,result_id)
 {
   //Get the "search-box" div
   let searchBoxControl = document.querySelector(search_box_id);
+  let marker='';
 
   //Initialize the geocoder
-  let geocoderControl = L.control.geocoder(key,options).addTo(map).on('select', 
+  let geocoderControl = L.control.geocoder(key,options);
+  geocoderControl.addTo(map);
+  geocoderControl.on('select', 
     function (e) {
       set_lat_lng(e.feature.feature.display_name, e.latlng.lat, e.latlng.lng,result_id);
+      //console.log(e.feature.feature.display_name, e.latlng.lat, e.latlng.lng);
+      let lat=e.latlng.lat;
+      let lng=e.latlng.lng;
+          // add marker to map
+      marker=create_draggable_marker(lat,lng)
     });
 
   let geocoderContainer = geocoderControl.getContainer();
@@ -120,7 +129,7 @@ function createSearch(search_box_id,options,result_id)
   //Append the geocoder container to the "search-box" div
   searchBoxControl.appendChild(geocoderContainer);
   
-  return geocoderControl;
+  return marker;
 
 }
 
