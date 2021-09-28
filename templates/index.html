@@ -161,25 +161,6 @@
                                     </p>
                                     
                             </div>
-                            <!--
-                            <div class="fieldWrapper">
-                                    
-                                    <p><label for="id_drop_type"> Type of drop </label> </p>
-                                    <p><select class="w-100 py-3" name="drop_type" id="id_drop_type">
-                                        <option value="WEB">Website</option>
-
-                                        <option value="YT">Youtube Video</option>
-
-                                        <option value="IMG">Photo</option>
-
-                                        <option value="ANI">Animation</option>
-
-                                        <option value="AUD">Audio</option>
-
-                                        </select>
-                                    </p> 
-                            </div>
-                          -->
 
                                     
                             <div class="fieldWrapper">
@@ -209,22 +190,6 @@
                                 </div>
                             </div>
                                     
-                        </div>
-
-                        <center><p>or</p></center>
-                        
-                        <div class="fieldWrapper pt-2 pb-5">
-
-                            <p>Choose location </p>
-                        
-                            <div  class="location-container drop-coord">
-
-                                <div id="drop-loc-search-box"></div>
-            
-                                <div id="get-drop-coord-locname"></div>
-            
-                            </div>
-                        
                         </div>
 
                         <div class="fieldWrapper trending-loc-list pb-2" style="padding-top:30px;" style="display:none"> 
@@ -421,6 +386,58 @@
 
         </div>
         <!-- end of asset library-->
+
+        <!-- START animation library -->
+        <div class="animation-asset-library p-5" style="display:none">
+          <div id="drop-assets-list"></div>
+          <h3 class="p-3">Asset Library<button class="btn p-2" id="hide-asset-lib-btn"style="float:right; color:red !important; background-color:white !important;">Next</button></h3>
+          <br>
+          <div class="row row-cols-1 row-cols-md-3 g-4">
+              <div class="col">
+                <div class="card asset-lib-card" style="width: 18rem;">
+                  <img src="{% static 'assets/animation_asset1' %}" class="first-image">
+                <div class="card-body">
+                  <button data-asset-id="asset_1" class="w-100 btn btn-block add-asset-btn">Add item</button>
+                  <hr><center><h5 class="card-title"></h5></center>
+                </div>
+                </div>
+              </div>
+
+              <div class="col">
+                  <div class="card asset-lib-card" style="width: 18rem;">
+                    <img src="{% static 'assets/animation_asset2' %}" class="first-image">
+                  <div class="card-body">
+                    <button data-asset-id="asset_2" class="w-100 btn btn-block add-asset-btn">Add item</button>
+                    <hr><center><h5 class="card-title"></h5></center>
+                  </div>
+                  </div>
+                </div>
+
+                <div class="col">
+                  <div class="card asset-lib-card" style="width: 18rem;">
+                    <img src="{% static 'assets/animation_asset3' %}" class="first-image">
+                  <div class="card-body">
+                    <button data-asset-id="asset_3" class="w-100 btn btn-block add-asset-btn">Add item</button>
+                    <hr><center><h5 class="card-title"></h5></center>
+                  </div>
+                  </div>
+                </div>
+                
+                <div class="col">
+                  <div class="card asset-lib-card" style="width: 18rem;">
+                    <img src="{% static 'assets/animation_asset4' %}" class="first-image">
+                  <div class="card-body">
+                    <button data-asset-id="asset_2" class="w-100 btn btn-block add-asset-btn">Add item</button>
+                    <hr><center><h5 class="card-title"></h5></center>
+                  </div>
+                  </div>
+                </div>
+
+          </div>
+          
+
+      </div>
+      <!-- end of animation library-->
 
     </div>
     <!-- end of container -->
