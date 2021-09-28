@@ -115,8 +115,8 @@ function confirm_drop_location(location_container,marker)
             if(marker !=undefined)
             {
                 let position = marker.getLatLng();
-                marker_coord[0]=position.lat
-                marker_coord[1]=position.lng
+                marker_coord[0]=position.lat;
+                marker_coord[1]=position.lng;
                 get_geocode_locations(location_container['location_list_id'],marker_coord[0],marker_coord[1])
             }
     })
@@ -147,10 +147,13 @@ function get_drop_location(location_container)
             }
 
         })
+    
+    ```
     // get drop location from auto complete search box
     marker=location_container['geocoderControl']
     console.log(location_container['geocoderControl'])
     confirm_drop_location(location_container,marker);
+    ```
 
     // placing marker on map and getting coordinates of marker
     let place_drop_btn=document.querySelector(location_container['place_drop_coordinates'][0])
@@ -177,9 +180,11 @@ function editDrop(drop_id)
         let location_container={'user_coordinates_container':{'search_box_id':'#edit-drop-coord','search_btn':'#edit-drop-coord-btn'},'search_coordinates_container_id':{'search_box_id':'#update-drop-loc-search-box','search_results':'update-drop-coord-locname'},'place_drop_coordinates':['#edit-drop-coord-marker','#confirm-edit-drop'],'location_list_id':'.edit-drop-location-list','geocoderControl':''}
 
         // change update drop tabs
-        document.querySelector('#edit-tab-3-control-b-btn').addEventListener('click',function() {    $('.drop-edit-details-tab').children().hide(); $('#drop-edit-details-tab-2').show();  if( checkIfEmpty('#update-drop-loc-search-box')) { createSearch(location_container['search_coordinates_container_id']['search_box_id'],options,location_container['search_coordinates_container_id']['search_results']); get_drop_location(place_drop_location_container); }  //get_trending_locations(location_container['location_list_id'],'#edit-drop-coord-trending')  
+        document.querySelector('#edit-tab-3-control-b-btn').addEventListener('click',function() {    $('.drop-edit-details-tab').children().hide(); $('#drop-edit-details-tab-2').show();  if( checkIfEmpty('#update-drop-loc-search-box')) { //createSearch(location_container['search_coordinates_container_id']['search_box_id'],options,location_container['search_coordinates_container_id']['search_results']); 
+        get_drop_location(place_drop_location_container); }  //get_trending_locations(location_container['location_list_id'],'#edit-drop-coord-trending')  
         }   )
-        document.querySelector('#edit-tab-1-control-f-btn').addEventListener('click',function() {    $('.drop-edit-details-tab').children().hide(); $('#drop-edit-details-tab-2').show();  if( checkIfEmpty('#update-drop-loc-search-box')) { createSearch(location_container['search_coordinates_container_id']['search_box_id'],options,location_container['search_coordinates_container_id']['search_results']); get_drop_location(place_drop_location_container); }  //get_trending_locations(location_container['location_list_id'],'#edit-drop-coord-trending') 
+        document.querySelector('#edit-tab-1-control-f-btn').addEventListener('click',function() {    $('.drop-edit-details-tab').children().hide(); $('#drop-edit-details-tab-2').show();  if( checkIfEmpty('#update-drop-loc-search-box')) { //createSearch(location_container['search_coordinates_container_id']['search_box_id'],options,location_container['search_coordinates_container_id']['search_results']); 
+        get_drop_location(place_drop_location_container); }  //get_trending_locations(location_container['location_list_id'],'#edit-drop-coord-trending') 
         }   )
         document.querySelector('#edit-tab-2-control-f-btn').addEventListener('click',function() {    $('.drop-edit-details-tab').children().hide(); $('#drop-edit-details-tab-3').show();   show_asset_lib("#edit_drop_assets");  })
         document.querySelector('#edit-tab-2-control-b-btn').addEventListener('click',function() {    $('.drop-edit-details-tab').children().hide(); $('#drop-edit-details-tab-1').show();   }   )
@@ -745,8 +750,12 @@ let options = {
 
 let place_drop_location_container={'user_coordinates_container':{'search_box_id':'#get-drop-coord','search_btn':'#user-drop-coord'},'search_coordinates_container_id':{'search_box_id':'#drop-loc-search-box','search_results':'get-drop-coord-locname'},'place_drop_coordinates':['#get-drop-coord-marker','#confirm-drop-coord'],'location_list_id':'.place-drop-location-list','geocoderControl':''}
 
-document.querySelector('#tab-3-control-b-btn').addEventListener('click',function() {    $('#pills-place-drop').children().hide(); $('#drop-details-tab-2').show();  if( checkIfEmpty('#drop-loc-search-box')) { createSearch(place_drop_location_container['search_coordinates_container_id']['search_box_id'],options,place_drop_location_container['search_coordinates_container_id']['search_results']); get_trending_locations(place_drop_location_container['location_list_id'],'#get-drop-coord-trending'); }    get_drop_location(place_drop_location_container);  }   )
-document.querySelector('#tab-1-control-f-btn').addEventListener('click',function() {    $('#pills-place-drop').children().hide(); $('#drop-details-tab-2').show();  if( checkIfEmpty('#drop-loc-search-box')) { createSearch(place_drop_location_container['search_coordinates_container_id']['search_box_id'],options,place_drop_location_container['search_coordinates_container_id']['search_results']); get_trending_locations(place_drop_location_container['location_list_id'],'#get-drop-coord-trending'); }    get_drop_location(place_drop_location_container);  }   )
+document.querySelector('#tab-3-control-b-btn').addEventListener('click',function() {    $('#pills-place-drop').children().hide(); $('#drop-details-tab-2').show();  if( checkIfEmpty('#drop-loc-search-box')) { //createSearch(place_drop_location_container['search_coordinates_container_id']['search_box_id'],options,place_drop_location_container['search_coordinates_container_id']['search_results']); 
+    get_trending_locations(place_drop_location_container['location_list_id'],'#get-drop-coord-trending'); }    
+    get_drop_location(place_drop_location_container);  }   )
+document.querySelector('#tab-1-control-f-btn').addEventListener('click',function() {    $('#pills-place-drop').children().hide(); $('#drop-details-tab-2').show();  if( checkIfEmpty('#drop-loc-search-box')) { //createSearch(place_drop_location_container['search_coordinates_container_id']['search_box_id'],options,place_drop_location_container['search_coordinates_container_id']['search_results']); 
+    get_trending_locations(place_drop_location_container['location_list_id'],'#get-drop-coord-trending'); }    
+    get_drop_location(place_drop_location_container);  }   )
 
 document.querySelector('#tab-2-control-f-btn').addEventListener('click',function() {    $('#pills-place-drop').children().hide(); $('#drop-details-tab-3').show();   show_asset_lib("#id_drop_assets")  }   )
 document.querySelector('#tab-2-control-b-btn').addEventListener('click',function() {    $('#pills-place-drop').children().hide(); $('#drop-details-tab-1').show();   }   )

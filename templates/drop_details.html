@@ -60,20 +60,6 @@
     </div>
 
     <center><p>or</p></center>
-    
-    <div class="fieldWrapper pt-2 pb-2">
-
-        <p>Choose location </p>
-    
-        <div  class="location-container drop-coord">
-
-            <div id="update-drop-loc-search-box"></div>
-
-            <div id="update-drop-coord"></div>
-
-        </div>
-    
-    </div>
 
     <!--
 
@@ -151,9 +137,20 @@
     <div class="fieldWrapper">
     
     <p><label for="edit_drop_assets"> Library </label> </p>
-    <div class="border border-secondary mx-5"><center><button role="button" data-asset-id="{% if drop.drop_asset %} {{ drop.drop_asset }} {% endif %}"" id="edit_drop_assets" class="btn" style="margin:25% 25% 25% 25%;">Browse</button></center></div>
+    <div class="border border-secondary mx-5"><center><button role="button" data-asset-id="{% if drop.drop_asset %} {{ drop.drop_asset }} {% endif %}" id="edit_drop_assets" class="btn" style="margin:25% 25% 25% 25%;">Browse</button></center></div>
     
     </div>
+
+
+    <div class="fieldWrapper w-100">
+                        
+        <p><label for="edit_drop_animation_assets"> Library </label> </p>
+        <div class="border border-secondary mx-5">
+            <center><button role="button" data-asset-id="{% if drop.drop_asset %} {{ drop.drop_asset }} {% endif %}" id="edit_drop_assets" class="btn" style="margin:25% 25% 25% 25%;">Browse</button></center>
+        </div>
+        
+    </div>
+
     <br>
     <div class="fieldWrapper pt-3">
     
